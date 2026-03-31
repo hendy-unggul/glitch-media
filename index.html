@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glitch Bandung - berpikir nakal…</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Copy CSS dari mockup sebelumnya (saya gunakan yang sudah ada) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FEFAF5; color: #1E2A2F; line-height: 1.5; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    /* ... (salin seluruh CSS dari mockup Glitch Bandung sebelumnya) ... */
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container">
+      <div class="lbs-info"><i class="fas fa-map-marker-alt"></i> <span id="city-name">Memuat lokasi...</span> · kamu di sini <a href="#" id="change-city" style="color:#C45C2C; margin-left: 8px;">ubah kota</a></div>
+      <select id="city-selector" class="city-dropdown" style="display:none;"></select>
+    </div>
+  </div>
+  <header class="main-header">
+    <div class="container">
+      <div class="logo-area">
+        <div><div class="glitch-logo">Glitch <span id="city-logo">Bandung</span></div><div class="tagline">berpikir nakal…</div></div>
+        <div><i class="fas fa-search" style="color:#C45C2C; font-size: 1.2rem;"></i></div>
+      </div>
+      <div class="nav-links">
+        <a href="#" class="active">Beranda</a>
+        <a href="#">Nasional</a>
+        <a href="#">Investigasi</a>
+        <a href="#">Suara Warga</a>
+        <a href="#">Data</a>
+        <a href="#">Budaya</a>
+        <a href="#">Interaktif</a>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <div id="articles-container"></div>
+    <div id="classifieds-container" class="sidebar" style="margin-top: 40px;"></div>
+  </main>
+  <footer>...</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Supabase credentials (ganti dengan milik Anda)
+    const SUPABASE_URL = 'https://yourproject.supabase.co';
+    const SUPABASE_ANON_KEY = 'your-anon-key';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    let currentCity = 'Bandung';
+
+    // Fungsi mendapatkan lokasi dari IP
+    async function detectCity() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        // mapping kota (contoh sederhana)
+        const cityMap = { 'Bandung': 'Bandung', 'Jakarta': 'Jakarta', 'Surabaya': 'Surabaya' };
+        currentCity = cityMap[data.city] || 'Bandung';
+        document.getElementById('city-name').innerText = currentCity;
+        document.getElementById('city-logo').innerText = currentCity;
+        loadArticles();
+        loadClassifieds();
+      } catch(e) { console.error(e); }
+    }
+
+    async function loadArticles() {
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('city', currentCity)
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+        .limit(10);
+      if (error) console.error(error);
+      else renderArticles(data);
+    }
+
+    function renderArticles(articles) {
+      const container = document.getElementById('articles-container');
+      container.innerHTML = ''; // gunakan template dari mockup
+      articles.forEach(article => {
+        // buat card sederhana
+        container.innerHTML += `<div class="card"><div class="card-content"><div class="rubrik">${article.rubrik}</div><h3>${article.title}</h3><p>${article.excerpt}</p></div></div>`;
+      });
+    }
+
+    async function loadClassifieds() {
+      const { data, error } = await supabase
+        .from('classifieds')
+        .select('*')
+        .eq('city', currentCity)
+        .eq('status', 'active');
+      if (error) console.error(error);
+      else renderClassifieds(data);
+    }
+
+    function renderClassifieds(ads) {
+      const container = document.getElementById('classifieds-container');
+      container.innerHTML = '<div class="widget"><h3><i class="fas fa-list-ul"></i> Iklan Baris · Ekonomi Lokal</h3>' + ads.map(ad => `<div class="classified-item"><i class="fas ${ad.category === 'property' ? 'fa-home' : 'fa-car'}"></i><div><strong>${ad.title}</strong> ${ad.description}<br><span>${ad.price}</span></div></div>`).join('') + '<button class="btn-primary">Pasang Iklan Baris</button></div>';
+    }
+
+    detectCity();
+  </script>
+</body>
+</html>
