@@ -12,7 +12,7 @@
   <div class="top-bar">
     <div class="container">
       <div class="lbs-info">
-        <i class="fas fa-map-marker-alt"></i> <span id="city-name">Memuat lokasi...</span> · kamu di sini
+        <i class="fas fa-map-marker-alt"></i> <span id="city-name">Bandung</span> · kamu di sini
         <a href="#" id="change-city" style="color:#C45C2C; margin-left: 8px;">ubah kota</a>
       </div>
       <select id="city-selector" class="city-dropdown" style="display:none;"></select>
@@ -28,7 +28,6 @@
         </div>
         <div><i class="fas fa-search" style="color:#C45C2C; font-size: 1.2rem; cursor:pointer;"></i></div>
       </div>
-      <!-- navigasi horizontal bisa di-scroll -->
       <div class="nav-links-wrapper">
         <div class="nav-links">
           <a href="#" class="active">Beranda</a>
@@ -44,8 +43,151 @@
   </header>
 
   <main class="container">
-    <div id="articles-container"></div>
-    <div id="sidebar-container" class="sidebar"></div>
+    <div class="content-grid">
+      <!-- Kiri: Artikel -->
+      <div id="articles-container">
+        <!-- Mockup Hero -->
+        <div class="hero">
+          <div class="hero-img" style="background-image: url('https://placehold.co/1200x600/D9C5B0/5E3A2A?text=Bandung+Utara');">
+            <div class="hero-tag">LOKAL UTAMA</div>
+          </div>
+          <div class="hero-text">
+            <h1>Moratorium Hotel Bandung Utara: Antara Ikon Kota dan Air yang Tersisa</h1>
+            <div class="meta"><i class="far fa-calendar-alt"></i> 1 April 2026 · Glitch Bandung</div>
+            <p>Wacana moratorium memecah dua kubu. Pengusaha sebut ancaman investasi, warga Ciumbuleuit justru khawatir air bersih. Glitch menelusuri data tata ruang, dokumen perizinan, dan suara warga yang jarang terdengar. Bukan sekadar polemik—tapi pilihan tentang wajah Bandung ke depan.</p>
+            <button class="btn-primary" style="width: auto; margin-top: 20px; padding: 10px 24px;">Baca selengkapnya →</button>
+          </div>
+        </div>
+
+        <!-- Card Grid -->
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-img" style="background-image: url('https://placehold.co/600x400/BBA28C/2C1A12?text=Rawan+Banjir');"></div>
+            <div class="card-content">
+              <div class="rubrik">INVESTIGASI DAERAH</div>
+              <h3>Drainase Mangkrak, Uang Lari ke Mana?</h3>
+              <div class="meta">3 jam lalu</div>
+              <p>Glitch mengantongi bukti transfer ke rekanan fiktif. Ada celah yang selama ini luput dari pengawasan.</p>
+              <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-img" style="background-image: url('https://placehold.co/600x400/B7A184/352315?text=Wawancara+Nakal');"></div>
+            <div class="card-content">
+              <div class="rubrik">SUARA WARGA · WAWANCARA NAKAL</div>
+              <h3>“Kampung Tematik Itu Pencitraan, Bukan Solusi” — Ngobrol dengan Lela, Aktivis Perkotaan</h3>
+              <div class="meta">Kamis, 31 Mar · 15 menit baca</div>
+              <p>Glitch duduk dengan Lela, mantan aktivis mahasiswa yang kini menginisiasi urban farming di Tamansari. Kami tanya: kenapa program “Kampung Tematik” Pemkot malah bikin masyarakat kehilangan ruang?</p>
+              <a href="#" style="color:#C45C2C; font-weight:500;">Baca wawancara →</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-img" style="background-image: url('https://placehold.co/600x400/BC9A7C/3E2A1C?text=Angklung');"></div>
+            <div class="card-content">
+              <div class="rubrik">BUDAYA & IDENTITAS</div>
+              <h3>Angklung di Tengah Algoritma: Menjaga Harmoni Tanpa Jadi Nostalgia</h3>
+              <div class="meta">2 hari lalu</div>
+              <p>Generasi baru Padasuka meramu tradisi dengan konten digital. Nakal, tapi tetap akar.</p>
+              <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-img" style="background-image: url('https://placehold.co/600x400/B49473/462D1C?text=Kopi+Bandung');"></div>
+            <div class="card-content">
+              <div class="rubrik">EKONOMI & USAHA LOKAL</div>
+              <h3>Warung Kopi “Mangkok” Naik 40% Berkat Kolaborasi Petani</h3>
+              <div class="meta">1 April 2026</div>
+              <p>Model bisnis berkelanjutan menggerakkan ekonomi warga. Glitch menyoroti ceruk yang sering diabaikan.</p>
+              <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grassroot Opini -->
+        <div class="grassroot-card">
+          <div class="rubrik">SUARA AKAR RUMPUT</div>
+          <h3>“Saya Becak, Bukan Masalah Lalu Lintas — Saya Masalah Kebijakan”</h3>
+          <div class="meta">Wawancara dengan Mang Ujang, pengayuh becak di Pajajaran</div>
+          <p>Ia tidak bicara tentang “melawan arus” atau “tidak tertib”. Ia bicara tentang izin yang tak pernah keluar, tentang trotoar yang didesain untuk kopi kekinian, bukan untuk manusia. Glitch merekam kesaksian yang menggugat narasi “kota ramah pejalan kaki” tanpa menyentuh mereka yang paling membutuhkan.</p>
+          <div class="interview-quote">“Kota ini ramah kalau kamu punya modal. Tapi kalau kamu cuma punya keringat, kamu jadi sampah visual.”</div>
+          <button class="btn-outline" style="margin-top: 12px;">Simak selengkapnya →</button>
+        </div>
+
+        <!-- Nasional dari sudut lokal + Interaktif -->
+        <div style="display: flex; flex-direction: column; gap: 24px; margin: 32px 0;">
+          <div style="background: white; border-radius: 24px; padding: 20px; border:1px solid #F0E4D8;">
+            <div class="rubrik">NASIONAL DARI SUDUT LOKAL</div>
+            <h3 style="margin: 8px 0;">RAPBN 2026: Berapa Dana untuk Jabar yang Beneran Sampai ke Kelurahan?</h3>
+            <p>Glitch memetakan alokasi Dana Desa dan DAK Fisik. Angka nasional sering membanggakan, tapi bagaimana realitanya di Bandung Selatan? Data dan wawancara dengan aparatur desa.</p>
+            <a href="#" style="color:#C45C2C; font-weight: 600;">Baca analisis →</a>
+          </div>
+          <div style="background: white; border-radius: 24px; padding: 20px; border:1px solid #F0E4D8;">
+            <div class="rubrik">INTERAKTIF</div>
+            <h3>Setujukah moratorium hotel di Bandung Utara?</h3>
+            <div><progress value="68" max="100" style="width:100%; height:8px; accent-color:#C45C2C;"></progress> 68% setuju</div>
+            <div style="margin-top: 8px;"><progress value="22" max="100" style="width:100%; height:8px; accent-color:#C45C2C;"></progress> 22% tidak setuju</div>
+            <button class="btn-outline" style="margin-top: 16px; width: 100%;">Suaramu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kanan: Sidebar -->
+      <div class="sidebar">
+        <!-- Data & Fakta -->
+        <div class="widget">
+          <h3><i class="fas fa-chart-simple"></i> Data & Fakta</h3>
+          <div class="data-item"><span>🏨 Hotel di Bandung Utara:</span> <strong>124 unit</strong></div>
+          <div class="data-item"><span>💧 Debit Cikapundung 2026:</span> <strong>2.3 m³/dtk (turun 12%)</strong></div>
+          <div class="data-item"><span>📈 Harga tanah Dago:</span> <strong>Rp 18 jt/m²</strong></div>
+          <a href="#" style="color:#C45C2C; font-size:0.8rem;">Lihat dataset lengkap →</a>
+        </div>
+
+        <!-- Trending lokal -->
+        <div class="widget">
+          <h3><i class="fas fa-fire"></i> Trending lokal</h3>
+          <ul class="trending-list">
+            <li><span>1</span> <a href="#">Parkir liar Alun-alun: siapa yang diuntungkan?</a></li>
+            <li><span>2</span> <a href="#">Lahan hijau berubah ruko: investigasi Glitch</a></li>
+            <li><span>3</span> <a href="#">Warga Cisitu desak transparansi anggaran</a></li>
+            <li><span>4</span> <a href="#">Kreator Bandung: “Kami butuh ruang, bukan sensor”</a></li>
+          </ul>
+        </div>
+
+        <!-- Iklan Baris -->
+        <div class="widget">
+          <h3><i class="fas fa-list-ul"></i> Iklan Baris · Ekonomi Lokal</h3>
+          <p style="font-size: 0.75rem;">Pasang iklan properti, mobil, kos, jasa — mulai Rp50.000/7 hari. 90% untuk redaksi Glitch Bandung.</p>
+          <div class="classified-item">
+            <i class="fas fa-home"></i>
+            <div><strong>Dijual Rumah Cluster Setra Dago</strong> LT 120, LB 90, 2 lantai. Harga nego.<br><span style="font-size: 0.7rem;">Hub: 0812-xxxx | Tampil 4 hari lagi</span></div>
+          </div>
+          <div class="classified-item">
+            <i class="fas fa-car"></i>
+            <div><strong>Mobil Toyota Rush 2020</strong> Putih, kondisi mulus, 35.000 km. Rp220 juta.<br><span style="font-size: 0.7rem;">Hub: 0852-xxxx | Tampil 2 hari lagi</span></div>
+          </div>
+          <div class="classified-item">
+            <i class="fas fa-bed"></i>
+            <div><strong>Kos Eksklusif Putri di Dago</strong> AC, kamar mandi dalam, free WiFi. Rp1.8jt/bln.<br><span style="font-size: 0.7rem;">Info: 0822-xxxx | Tampil 6 hari lagi</span></div>
+          </div>
+          <button class="btn-primary"><i class="fas fa-plus-circle"></i> Pasang Iklan Baris</button>
+          <div class="editorial-note"><i class="fas fa-check-circle"></i> Iklan ini dikelola langsung oleh meja redaksi Glitch Bandung</div>
+        </div>
+
+        <!-- Aliran darah media -->
+        <div class="widget">
+          <h3>💰 Aliran darah media</h3>
+          <p style="font-size: 0.85rem;">Iklan lokal & nasional → masuk ke rekening pusat. <strong>Pusat menangani pajak</strong> (PPh final) dan biaya sistem. Pendapatan daerah ditransfer <strong>langsung bersih (net)</strong> tanpa potong ulang.</p>
+          <div style="background: #FFF7F0; border-radius: 16px; padding: 12px; margin-top: 8px;">
+            <i class="fas fa-chart-pie"></i> <strong>Pendapatan bersih Glitch Bandung bulan ini:</strong><br>
+            Rp 9.420.000 <span style="font-size:0.7rem;">(sudah termasuk pajak ditanggung pusat)</span>
+          </div>
+          <div class="editorial-note" style="margin-top: 12px;">
+            <i class="fas fa-file-invoice"></i> Redaksi daerah: fokus ke materi & kualitas pemberitaan. <br>Tanpa urusan pajak, tanpa administrasi keuangan.
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="piramida-section">
       <h3>Piramida Berita Glitch: Kontras yang Mendewasakan</h3>
       <div class="piramida-grid">
@@ -71,7 +213,23 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/public.js"></script>
+  <!-- Opsional: file JS untuk interaksi (tanpa Supabase jika hanya mockup) -->
+  <script>
+    // Simple city switcher
+    const cityNames = ['Bandung', 'Jakarta', 'Surabaya', 'Medan', 'Makassar'];
+    document.getElementById('change-city').addEventListener('click', (e) => {
+      e.preventDefault();
+      const selector = document.getElementById('city-selector');
+      selector.innerHTML = cityNames.map(c => `<option value="${c}">Glitch ${c}</option>`).join('');
+      selector.style.display = 'block';
+      selector.addEventListener('change', () => {
+        const newCity = selector.value;
+        document.getElementById('city-name').innerText = newCity;
+        document.getElementById('city-logo').innerText = newCity;
+        selector.style.display = 'none';
+        // Di sini nanti bisa panggil fungsi load ulang konten berdasarkan kota
+      });
+    });
+  </script>
 </body>
 </html>
