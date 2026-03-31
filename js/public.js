@@ -1,6 +1,6 @@
 // Supabase configuration - GANTI DENGAN MILIK ANDA
-const SUPABASE_URL = 'https://yourproject.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+const SUPABASE_URL = 'https://zfudjpclivegiapsbvfl.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmdWRqcGNsaXZlZ2lhcHNidmZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5Nzk2MTIsImV4cCI6MjA5MDU1NTYxMn0.K_fH5UKX2wU0m2qLQTzMlNVa5DCWEoGkRrucHXF6buU';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentCity = 'Bandung';
