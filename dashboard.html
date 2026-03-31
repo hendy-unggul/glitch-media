@@ -2,96 +2,85 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Glitch Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glitch Dashboard - Editor</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FEFAF5; color: #1E2A2F; padding: 24px; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .form-group { margin-bottom: 16px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; }
-    input, textarea, select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #F0E4D8; background: white; }
-    button { background: #C45C2C; color: white; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
-    .card { background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1px solid #F0E4D8; }
+    /* Dashboard-specific overrides */
+    body { padding: 24px; background: #FEFAF5; }
+    .dashboard-container { max-width: 1200px; margin: 0 auto; }
+    .form-card, .list-card { background: white; border-radius: 28px; padding: 24px; margin-bottom: 32px; border: 1px solid #F0E4D8; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #1E2A2F; }
+    input, textarea, select { width: 100%; padding: 12px; border-radius: 16px; border: 1px solid #F0E4D8; background: white; font-family: inherit; }
+    button { background: #C45C2C; color: white; border: none; padding: 12px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; font-weight: 700; }
+    .status-draft { background: #f0e4d8; color: #A67B5A; }
+    .status-review { background: #FFE0B5; color: #C45C2C; }
+    .status-published { background: #C45C2C20; color: #C45C2C; }
+    .article-item { border-bottom: 1px solid #F0E4D8; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>Dashboard Glitch</h1>
-  <div id="auth-section">
-    <input type="email" id="email" placeholder="Email" class="form-group">
-    <input type="password" id="password" placeholder="Password" class="form-group">
+<div class="dashboard-container">
+  <h1 style="margin-bottom: 24px;">Glitch Editor Dashboard</h1>
+
+  <!-- Auth Section -->
+  <div id="auth-section" class="form-card">
+    <h2>Login</h2>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="email@glitch.id">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="password">
+    </div>
     <button id="login-btn">Login</button>
   </div>
+
+  <!-- Dashboard Content (hidden until login) -->
   <div id="dashboard-content" style="display:none;">
-    <div class="card">
+    <!-- Upload Article Form -->
+    <div class="form-card">
       <h2>Upload Artikel Baru</h2>
       <form id="article-form">
-        <div class="form-group"><label>Judul</label><input id="title" required></div>
-        <div class="form-group"><label>Excerpt</label><textarea id="excerpt"></textarea></div>
-        <div class="form-group"><label>Konten (HTML)</label><textarea id="content"></textarea></div>
-        <div class="form-group"><label>Rubrik</label><select id="rubrik"><option>Lokal Utama</option><option>Investigasi</option><option>Suara Warga</option></select></div>
+        <div class="form-group"><label>Judul *</label><input id="title" required></div>
+        <div class="form-group"><label>Slug (URL friendly)</label><input id="slug" placeholder="otomatis dari judul"></div>
+        <div class="form-group"><label>Excerpt (ringkasan)</label><textarea id="excerpt" rows="3"></textarea></div>
+        <div class="form-group"><label>Konten (HTML)</label><textarea id="content" rows="8"></textarea></div>
+        <div class="form-group"><label>Rubrik</label><select id="rubrik"><option>Lokal Utama</option><option>Investigasi</option><option>Suara Warga</option><option>Budaya & Identitas</option><option>Ekonomi & Usaha Lokal</option></select></div>
         <div class="form-group"><label>Kota</label><input id="city" placeholder="Bandung"></div>
-        <div class="form-group"><label>Latitude</label><input id="lat" placeholder="-6.9175"></div>
-        <div class="form-group"><label>Longitude</label><input id="lng" placeholder="107.6191"></div>
+        <div class="form-group"><label>Latitude (opsional)</label><input id="lat" placeholder="-6.9175"></div>
+        <div class="form-group"><label>Longitude (opsional)</label><input id="lng" placeholder="107.6191"></div>
         <button type="submit">Simpan sebagai Draft</button>
       </form>
     </div>
-    <div id="article-list"></div>
+
+    <!-- Article List -->
+    <div class="form-card">
+      <h2>Artikel Saya</h2>
+      <div id="article-list"></div>
+    </div>
+
+    <!-- Classified Management (optional) -->
+    <div class="form-card">
+      <h2>Iklan Baris Lokal</h2>
+      <button id="new-classified-btn">+ Pasang Iklan Baru</button>
+      <div id="classified-list" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Revenue Info -->
+    <div class="form-card">
+      <h2>Pendapatan Daerah</h2>
+      <div id="revenue-info">Memuat...</div>
+    </div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://yourproject.supabase.co';
-  const SUPABASE_ANON_KEY = 'your-anon-key';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  let currentUser = null;
-
-  document.getElementById('login-btn').onclick = async () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) alert(error.message);
-    else {
-      currentUser = data.user;
-      document.getElementById('auth-section').style.display = 'none';
-      document.getElementById('dashboard-content').style.display = 'block';
-      loadMyArticles();
-    }
-  };
-
-  document.getElementById('article-form').onsubmit = async (e) => {
-    e.preventDefault();
-    const { data, error } = await supabase
-      .from('articles')
-      .insert([{
-        title: document.getElementById('title').value,
-        excerpt: document.getElementById('excerpt').value,
-        content: document.getElementById('content').value,
-        rubrik: document.getElementById('rubrik').value,
-        city: document.getElementById('city').value,
-        latitude: parseFloat(document.getElementById('lat').value) || null,
-        longitude: parseFloat(document.getElementById('lng').value) || null,
-        slug: document.getElementById('title').value.toLowerCase().replace(/ /g, '-'),
-        author_id: currentUser.id,
-        status: 'draft'
-      }]);
-    if (error) alert(error.message);
-    else alert('Artikel draft disimpan!');
-  };
-
-  async function loadMyArticles() {
-    const { data, error } = await supabase
-      .from('articles')
-      .select('*')
-      .eq('author_id', currentUser.id);
-    if (!error) {
-      const listDiv = document.getElementById('article-list');
-      listDiv.innerHTML = '<h2>Artikel Saya</h2>' + data.map(a => `<div class="card">${a.title} - ${a.status}</div>`).join('');
-    }
-  }
-</script>
+<script src="js/dashboard.js"></script>
 </body>
 </html>
