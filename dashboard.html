@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Glitch Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FEFAF5; color: #1E2A2F; padding: 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; }
+    input, textarea, select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #F0E4D8; background: white; }
+    button { background: #C45C2C; color: white; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; }
+    .card { background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1px solid #F0E4D8; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Dashboard Glitch</h1>
+  <div id="auth-section">
+    <input type="email" id="email" placeholder="Email" class="form-group">
+    <input type="password" id="password" placeholder="Password" class="form-group">
+    <button id="login-btn">Login</button>
+  </div>
+  <div id="dashboard-content" style="display:none;">
+    <div class="card">
+      <h2>Upload Artikel Baru</h2>
+      <form id="article-form">
+        <div class="form-group"><label>Judul</label><input id="title" required></div>
+        <div class="form-group"><label>Excerpt</label><textarea id="excerpt"></textarea></div>
+        <div class="form-group"><label>Konten (HTML)</label><textarea id="content"></textarea></div>
+        <div class="form-group"><label>Rubrik</label><select id="rubrik"><option>Lokal Utama</option><option>Investigasi</option><option>Suara Warga</option></select></div>
+        <div class="form-group"><label>Kota</label><input id="city" placeholder="Bandung"></div>
+        <div class="form-group"><label>Latitude</label><input id="lat" placeholder="-6.9175"></div>
+        <div class="form-group"><label>Longitude</label><input id="lng" placeholder="107.6191"></div>
+        <button type="submit">Simpan sebagai Draft</button>
+      </form>
+    </div>
+    <div id="article-list"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://yourproject.supabase.co';
+  const SUPABASE_ANON_KEY = 'your-anon-key';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  let currentUser = null;
+
+  document.getElementById('login-btn').onclick = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) alert(error.message);
+    else {
+      currentUser = data.user;
+      document.getElementById('auth-section').style.display = 'none';
+      document.getElementById('dashboard-content').style.display = 'block';
+      loadMyArticles();
+    }
+  };
+
+  document.getElementById('article-form').onsubmit = async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase
+      .from('articles')
+      .insert([{
+        title: document.getElementById('title').value,
+        excerpt: document.getElementById('excerpt').value,
+        content: document.getElementById('content').value,
+        rubrik: document.getElementById('rubrik').value,
+        city: document.getElementById('city').value,
+        latitude: parseFloat(document.getElementById('lat').value) || null,
+        longitude: parseFloat(document.getElementById('lng').value) || null,
+        slug: document.getElementById('title').value.toLowerCase().replace(/ /g, '-'),
+        author_id: currentUser.id,
+        status: 'draft'
+      }]);
+    if (error) alert(error.message);
+    else alert('Artikel draft disimpan!');
+  };
+
+  async function loadMyArticles() {
+    const { data, error } = await supabase
+      .from('articles')
+      .select('*')
+      .eq('author_id', currentUser.id);
+    if (!error) {
+      const listDiv = document.getElementById('article-list');
+      listDiv.innerHTML = '<h2>Artikel Saya</h2>' + data.map(a => `<div class="card">${a.title} - ${a.status}</div>`).join('');
+    }
+  }
+</script>
+</body>
+</html>
