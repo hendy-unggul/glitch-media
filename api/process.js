@@ -1,42 +1,45 @@
-// api/process.js
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
 
   const { title, content, city, rubric } = req.body;
-  const DEEPSEEK_KEY = process.env.DEEPSEEK_API_KEY; // Setting di Vercel Dashboard
 
-  const systemPrompt = `You are the Glitch AI Restorative Engine. 
-  Process this 150-word report from ${city} (${rubric}). 
-  Create 2 styles: 
-  A (Detective): Sharp, cynical, noir. 
-  B (Urban Poet): Atmospheric, melancholic, soulful. 
-  Rules: Open conclusion, no moral judgment, use contrast. 
-  Output ONLY JSON: { "headlineA": "...", "contentA": "...", "headlineB": "...", "contentB": "..." }`;
+  // 1. Panggil DeepSeek
+  const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${process.env.DEEPSEEK_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      messages: [
+        { role: "system", content: "You are Glitch AI. Return ONLY JSON: {headlineA, contentA, headlineB, contentB}" },
+        { role: "user", content: `Title: ${title}\nContent: ${content}` }
+      ],
+      response_format: { type: 'json_object' }
+    })
+  });
 
-  try {
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${DEEPSEEK_KEY}`
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `Title: ${title}\nContent: ${content}` }
-        ],
-        response_format: { type: 'json_object' }
-      })
-    });
+  const aiResult = JSON.parse((await response.json()).choices[0].message.content);
 
-    const data = await response.json();
-    const aiResult = JSON.parse(data.choices[0].message.content);
-    
-    // Simulasikan penyimpanan ke DB/Cache sederhana (Trial Mode)
-    // Di produksi, Anda akan menyimpan ini ke Supabase/Firebase
-    return res.status(200).json({ ...aiResult, originalTitle: title, originalContent: content });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
+  // 2. Simpan ke Supabase (Antrian FIFO)
+  const { data, error } = await supabase
+    .from('transmissions')
+    .insert([{
+      city_code: city,
+      rubrik_id: rubric,
+      raw_title: title,
+      raw_content: content,
+      headline_a: aiResult.headlineA,
+      content_a: aiResult.contentA,
+      headline_b: aiResult.headlineB,
+      content_b: aiResult.contentB
+    }]);
+
+  if (error) return res.status(500).json(error);
+  return res.status(200).json({ status: "Queued" });
 }
