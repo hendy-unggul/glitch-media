@@ -1,59 +1,229 @@
-<div class="form-box">
-  <div class="header-info">
-    <h1><i class="fas fa-camera"></i> Input Reportase & Raw Image</h1>
-    <p style="color: #888;">Narasi minimal 150 kata + 1 Foto Mentah asli lapangan adalah WAJIB.</p>
-  </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Glitch // Reporter Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root { --pink: #ff3366; --bg: #0a0c10; --card: #13161c; --border: #2a2a36; --text: #eee; }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.5; }
 
-  <div class="param-grid">
-    <select id="cityCode"><option value="BDG">BDG</option>...</select>
-    <select id="rubrikId"><option value="LIAR">LIAR</option>...</select>
-    <input type="text" placeholder="ID Reporter">
-  </div>
+    /* --- 1. LOGIN OVERLAY (THE GATEKEEPER) --- */
+    #authOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center;
+    }
+    .login-box {
+      width: 340px; padding: 40px; border: 1px solid var(--pink); background: var(--card);
+      text-align: center; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    }
+    .login-box::before { content: "ENCRYPTED_ACCESS"; position: absolute; top: -10px; left: 20px; background: var(--pink); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; }
+    
+    .login-box h2 { font-size: 1rem; letter-spacing: 3px; margin-bottom: 30px; color: #fff; text-transform: uppercase; }
+    .login-input {
+      width: 100%; background: #000; border: none; border-bottom: 2px solid var(--border);
+      color: var(--pink); padding: 12px; text-align: center; font-size: 1.1rem;
+      margin-bottom: 20px; outline: none; transition: 0.3s; font-family: monospace;
+    }
+    .login-input:focus { border-bottom-color: var(--pink); }
+    .btn-login {
+      width: 100%; padding: 15px; background: var(--pink); color: #000; border: none;
+      font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+    }
+    .btn-login:hover { letter-spacing: 1px; opacity: 0.9; }
 
-  <div class="input-group">
-    <label>Narasi Mentah (Raw Content)</label>
-    <textarea id="rawContent" rows="10" placeholder="Tuliskan fakta selengkapnya. Minimal 150 kata..."></textarea>
-    <div id="wordCount" style="text-align: right; font-size: 0.6rem; color: #555; margin-top: 5px;">0 / 150 Kata</div>
-  </div>
+    /* --- 2. MAIN DASHBOARD CONTENT --- */
+    #mainDashboard { display: none; padding: 40px 15px; }
+    .container { max-width: 800px; margin: 0 auto; border: 1px solid var(--border); padding: 30px; background: var(--card); position: relative; }
+    .container::after { content: "GLITCH_SENSOR_v1.0"; position: absolute; top: -10px; right: 20px; background: var(--pink); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; }
 
-  <div class="input-group" style="margin-top: 20px;">
-    <label>Raw Image (Bukti Visual Asli)</label>
-    <div class="file-upload-wrapper" style="border: 2px dashed #2a2a36; padding: 20px; text-align: center;">
-      <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #555; margin-bottom: 10px;"></i>
-      <input type="file" id="rawImage" accept="image/*" style="display: block; margin: 0 auto;">
-      <p style="font-size: 0.65rem; color: #888; margin-top: 10px;">Foto ini akan digunakan AI untuk menyempurnakan 'Soul' visual artikel.</p>
+    .header-info { border-bottom: 1px solid var(--border); margin-bottom: 25px; padding-bottom: 15px; }
+    .header-info h1 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: -0.5px; margin-bottom: 10px; }
+
+    /* ALERT BOX: 5W+1H REQUIREMENT */
+    .alert-box {
+      background: rgba(255, 51, 102, 0.08); border-left: 3px solid var(--pink); 
+      padding: 15px; margin-bottom: 25px;
+    }
+    .alert-box strong { color: var(--pink); font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 5px; }
+    .alert-box p { font-size: 0.75rem; color: #aaa; line-height: 1.4; }
+
+    .param-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+    
+    label { display: block; font-size: 0.6rem; color: var(--pink); text-transform: uppercase; font-weight: 800; margin-bottom: 6px; letter-spacing: 1px; }
+    
+    select, input, textarea {
+      width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 12px;
+      font-size: 0.9rem; outline: none; border-radius: 0;
+    }
+    textarea:focus, select:focus { border-color: var(--pink); }
+
+    /* UPLOAD ZONE */
+    .upload-zone {
+      border: 2px dashed var(--border); padding: 25px; text-align: center; margin-top: 15px;
+      transition: 0.3s; cursor: pointer; background: rgba(0,0,0,0.3);
+    }
+    .upload-zone:hover { border-color: var(--pink); background: rgba(255, 51, 102, 0.03); }
+    .upload-zone i { font-size: 1.4rem; color: var(--pink); margin-bottom: 10px; display: block; }
+
+    .btn-send {
+      width: 100%; padding: 18px; background: transparent; border: 2px solid var(--pink);
+      color: var(--pink); font-weight: 900; text-transform: uppercase; cursor: pointer;
+      margin-top: 35px; font-size: 0.9rem; transition: 0.3s; letter-spacing: 1px;
+    }
+    .btn-send:disabled { border-color: #333; color: #444; cursor: not-allowed; opacity: 0.5; }
+    .btn-send:not(:disabled):hover { background: var(--pink); color: #000; box-shadow: 0 0 25px rgba(255, 51, 102, 0.3); }
+
+    #wordCounter { text-align: right; font-size: 0.65rem; color: #555; margin-top: 5px; font-family: monospace; }
+
+    /* GRAIN TEXTURE */
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      opacity: 0.04; pointer-events: none; z-index: 10001;
+    }
+  </style>
+</head>
+<body>
+
+<div id="authOverlay">
+  <div class="login-box">
+    <h2>Access Frequency</h2>
+    <input type="text" id="userField" class="login-input" placeholder="USERNAME" spellcheck="false">
+    <input type="password" id="pinField" class="login-input" placeholder="PIN (6-DIGIT)" maxlength="6">
+    <button class="btn-login" onclick="loginProcess()">Verify Identity</button>
+    <p id="msg" style="color:#ff3366; font-size:0.65rem; margin-top:15px; display:none; font-family:monospace;">ERROR: ACCESS_DENIED. CHECK CREDENTIALS.</p>
+  </div>
+</div>
+
+<div id="mainDashboard">
+  <div class="container">
+    <div class="header-info">
+      <h1>Reportase Lapangan</h1>
+      <p id="welcomeMsg" style="font-size:0.75rem; color:#888; font-family: monospace;"></p>
     </div>
-  </div>
 
-  <button type="button" class="btn-deploy" id="submitBtn" disabled>
-    KIRIM KE KURASI JAKARTA <i class="fas fa-satellite"></i>
-  </button>
+    <div class="alert-box">
+      <strong>Kaidah Wajib (Standar Emas):</strong>
+      <p>Tanpa elemen <strong>Who, What, Where, When, Why, dan How (5W+1H)</strong>, reportase Anda otomatis dianggap tidak layak siar oleh sistem kurasi pusat.</p>
+    </div>
+
+    <form id="reportForm">
+      <div class="param-grid">
+        <div>
+          <label>Target Kota (Deploy)</label>
+          <select id="cityCode">
+            <option value="BDG">BANDUNG (BDG)</option>
+            <option value="JKT">JAKARTA (JKT)</option>
+            <option value="SUB">SURABAYA (SUB)</option>
+            <option value="MDN">MEDAN (MDN)</option>
+            <option value="MKS">MAKASSAR (MKS)</option>
+          </select>
+        </div>
+        <div>
+          <label>Rubrik (Kategori)</label>
+          <select id="rubrikId">
+            <option value="LIAR">LIAR (Investigasi)</option>
+            <option value="BISING">BISING (Suara Warga)</option>
+            <option value="DATA">DATA (Analisis)</option>
+            <option value="VIBE">VIBE (Budaya)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Narasi Mentah (Raw Content)</label>
+        <textarea id="rawContent" rows="10" placeholder="Tuliskan fakta mentah lapangan. Pastikan mengandung unsur 5W+1H secara eksplisit. AI akan menyempurnakan soul narasinya..."></textarea>
+        <div id="wordCounter">0 / 150 Kata</div>
+      </div>
+
+      <div class="input-group" style="margin-top:20px;">
+        <label>Raw Image (Basis DNA Visual)</label>
+        <div class="upload-zone" id="dropzone" onclick="document.getElementById('rawImg').click()">
+          <i class="fas fa-camera"></i>
+          <p style="font-size:0.7rem; color:#888;" id="fileName">Sematkan 1 foto unik bukti lapangan</p>
+          <input type="file" id="rawImg" accept="image/*" style="display:none">
+        </div>
+      </div>
+
+      <button type="button" class="btn-send" id="submitBtn" disabled>
+        Push to Editorial Jakarta <i class="fas fa-satellite"></i>
+      </button>
+    </form>
+    
+    <p style="text-align: center; color: #333; font-size: 0.6rem; margin-top: 20px; text-transform: uppercase;">Glitch Hyperlocal Network &copy; 2026</p>
+  </div>
 </div>
 
 <script>
-  // Script validasi ganda (Kata & Foto)
-  const textarea = document.getElementById('rawContent');
-  const fileInput = document.getElementById('rawImage');
-  const counter = document.getElementById('wordCount');
-  const btn = document.getElementById('submitBtn');
-
-  function validateForm() {
-    const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0).length;
-    const hasPhoto = fileInput.files.length > 0;
+  // 1. AUTHENTICATION LOGIC
+  function loginProcess() {
+    const user = document.getElementById('userField').value;
+    const pin = document.getElementById('pinField').value;
     
-    counter.innerText = `${words} / 150 Kata`;
-    
-    if (words >= 150 && hasPhoto) {
-      counter.style.color = "#ff3366";
-      btn.disabled = false;
-      btn.style.borderColor = "#ff3366";
+    // Simple validation for prototype
+    if(user.trim() !== "" && pin.length === 6 && !isNaN(pin)) {
+      document.getElementById('authOverlay').style.display = 'none';
+      document.getElementById('mainDashboard').style.display = 'block';
+      document.getElementById('welcomeMsg').innerText = `ID_REPORTER: ${user.toUpperCase()} // STATUS: ONLINE`;
     } else {
-      counter.style.color = "#555";
-      btn.disabled = true;
-      btn.style.borderColor = "#2a2a36";
+      const errorMsg = document.getElementById('msg');
+      errorMsg.style.display = 'block';
+      setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
     }
   }
 
-  textarea.addEventListener('input', validateForm);
-  fileInput.addEventListener('change', validateForm);
+  // 2. REAL-TIME PARAMETRIC VALIDATION
+  const textarea = document.getElementById('rawContent');
+  const fileInput = document.getElementById('rawImg');
+  const submitBtn = document.getElementById('submitBtn');
+  const wordCounter = document.getElementById('wordCounter');
+  const fileNameDisplay = document.getElementById('fileName');
+
+  function validate() {
+    const text = textarea.value.trim();
+    // Word count calculation
+    const words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+    const hasPhoto = fileInput.files.length > 0;
+
+    wordCounter.innerText = `${words} / 150 KATA`;
+    
+    if (words >= 150) {
+      wordCounter.style.color = "#ff3366";
+    } else {
+      wordCounter.style.color = "#555";
+    }
+
+    if (hasPhoto) {
+      fileNameDisplay.innerText = `READY: ${fileInput.files[0].name.toUpperCase()}`;
+      fileNameDisplay.style.color = "#ff3366";
+    }
+
+    // Enable button only if both criteria met
+    if (words >= 150 && hasPhoto) {
+      submitBtn.disabled = false;
+    } else {
+      submitBtn.disabled = true;
+    }
+  }
+
+  textarea.addEventListener('input', validate);
+  fileInput.addEventListener('change', validate);
+
+  // 3. PUSH DEPLOY SIMULATION
+  submitBtn.addEventListener('click', () => {
+    submitBtn.innerHTML = "UPLOADING DATA... <i class='fas fa-sync fa-spin'></i>";
+    submitBtn.disabled = true;
+    
+    setTimeout(() => {
+      alert("SUCCESS: Laporan diterima Editorial Jakarta. AI Processor sedang merestorasi narasi dan visual.");
+      location.reload(); 
+    }, 2500);
+  });
 </script>
+
+</body>
+</html>
