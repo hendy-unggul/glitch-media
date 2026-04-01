@@ -7,6 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* 1. ANALOG GRAIN OVERLAY */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      /* Tekstur grain halus untuk menghilangkan kesan "dingin" digital */
+      background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -17,22 +29,15 @@
       font-family: 'Inter', sans-serif;
       background: #0a0c10;
       color: #f0f0f0;
-      line-height: 1.4;
+      line-height: 1.5; /* Sedikit lebih renggang agar lebih bernapas */
       overflow-x: hidden;
       padding-bottom: 80px;
     }
 
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1e1e2a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #ff3366;
-      border-radius: 10px;
-    }
+    /* CUSTOM SCROLLBAR - Tekstur Kasar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a0c10; }
+    ::-webkit-scrollbar-thumb { background: #ff3366; border-radius: 0; }
 
     .container {
       width: 100%;
@@ -41,701 +46,232 @@
       max-width: 700px;
     }
 
-    /* TOP BAR */
+    /* TOP BAR - Glassmorphism dengan Border Kasar */
     .top-bar {
-      background: rgba(10, 12, 16, 0.95);
-      backdrop-filter: blur(12px);
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(15px);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 51, 102, 0.3);
+      padding: 14px 0;
+      border-bottom: 2px solid rgba(255, 51, 102, 0.2);
     }
+    
     .top-bar .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
     }
+
     .lbs {
       background: #1e1e2a;
-      padding: 6px 12px;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .lbs i {
-      color: #ff3366;
-    }
-    .search-icon {
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .search-icon:hover {
-      transform: scale(1.1);
+      padding: 6px 14px;
+      border-radius: 4px; /* Kotak lebih terasa 'analog' daripada pill */
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-left: 3px solid #ff3366;
     }
 
-    /* LOGO */
-    .logo-area {
-      padding: 20px 0 8px;
-    }
+    /* LOGO AREA - Glitch yang lebih 'Dirty' */
+    .logo-area { padding: 30px 0 10px; text-align: left; }
     .glitch-logo {
-      font-size: 2.2rem;
+      font-size: 2.8rem;
       font-weight: 900;
-      letter-spacing: -1px;
-      display: inline-block;
-      position: relative;
-      animation: glitch-skew 8s infinite;
-    }
-    .glitch-logo span {
-      color: #ff3366;
-      display: inline-block;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #fff;
       position: relative;
     }
-    .glitch-logo span::before,
-    .glitch-logo span::after {
-      content: "Bandung";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-    }
-    .glitch-logo span::before {
-      color: #00f2ff;
-      z-index: -1;
-      animation: glitch-text 6s infinite;
-    }
-    .glitch-logo span::after {
-      color: #ff00cc;
-      z-index: -2;
-      animation: glitch-text 6s infinite 0.1s;
-    }
-    @keyframes glitch-skew {
-      0%, 100% { transform: skew(0deg); }
-      96% { transform: skew(2deg); }
-      97% { transform: skew(-1deg); }
-    }
-    @keyframes glitch-text {
-      0% { transform: translate(0); opacity: 0; }
-      95% { transform: translate(0); opacity: 0; }
-      96% { transform: translate(-3px, -1px); opacity: 0.6; }
-      97% { transform: translate(2px, 1px); opacity: 0.6; }
-      98% { transform: translate(0); opacity: 0; }
-    }
+    .glitch-logo span { color: #ff3366; }
+
     .tagline {
-      font-size: 0.7rem;
-      font-weight: 500;
-      background: rgba(255, 51, 102, 0.2);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #8a8a9a;
+      margin-top: 5px;
+      font-style: italic;
+      border-bottom: 1px solid #2a2a36;
       display: inline-block;
-      padding: 4px 12px;
-      border-radius: 40px;
-      margin-top: 8px;
-      color: #ff99bb;
     }
 
-    /* BOTTOM NAV */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(10, 12, 16, 0.98);
-      backdrop-filter: blur(12px);
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 20px;
-      border-top: 1px solid rgba(255, 51, 102, 0.3);
-      z-index: 200;
-    }
-    @media (min-width: 768px) {
-      .bottom-nav {
-        width: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 20px;
-        border-radius: 60px;
-        width: 90%;
-        max-width: 500px;
-        background: rgba(10,12,16,0.9);
-      }
-    }
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: #aaa;
-      text-decoration: none;
-      font-size: 0.7rem;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-    .nav-item i {
-      font-size: 1.2rem;
-    }
-    .nav-item.active {
-      color: #ff3366;
-      transform: translateY(-2px);
-    }
-    .nav-item:hover {
-      color: #ff6699;
-    }
-
-    /* HERO */
+    /* HERO - Tekstur Kliping Koran */
     .hero {
-      background: linear-gradient(135deg, #1e1e2a 0%, #2a1e2a 100%);
-      border-radius: 28px;
-      overflow: hidden;
-      margin: 20px 0 32px;
-      border: 1px solid rgba(255, 51, 102, 0.4);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      background: #13161c;
+      margin: 25px 0;
+      border: 1px solid #2a2a36;
+      position: relative;
     }
     .hero-img {
-      height: 200px;
+      height: 250px;
       background-size: cover;
       background-position: center;
-      position: relative;
-      filter: contrast(1.1) brightness(0.9);
-      transition: all 0.3s;
+      filter: grayscale(0.5) contrast(1.2); /* Efek foto cetak lama */
+      transition: all 0.5s ease;
     }
-    .hero:hover .hero-img {
-      filter: contrast(1.2) brightness(0.8) hue-rotate(5deg);
-    }
+    .hero:hover .hero-img { filter: grayscale(0) contrast(1); }
+    
+    /* Efek scanline pada gambar */
     .hero-img::after {
-      content: '';
+      content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(45deg, rgba(255,51,102,0.1) 0px, rgba(255,51,102,0.1) 2px, transparent 2px, transparent 8px);
-      pointer-events: none;
+      width: 100%; height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 3px 100%;
     }
-    .hero-text {
-      padding: 24px;
-    }
-    .hero-tag {
-      display: inline-block;
-      background: #ff3366;
-      color: #0a0c10;
-      font-weight: 800;
-      font-size: 0.7rem;
-      padding: 4px 12px;
-      border-radius: 40px;
-      margin-bottom: 12px;
-    }
+
+    .hero-text { padding: 30px; }
     .hero h1 {
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 12px;
+      line-height: 1;
+      letter-spacing: -1px;
+      margin-bottom: 15px;
     }
-    .hero p {
-      color: #ccc;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-    }
+
+    /* BUTTON - Desain Brutalist */
     .btn-nakal {
-      background: none;
-      border: 1px solid #ff3366;
-      color: #ff3366;
-      padding: 8px 20px;
-      border-radius: 40px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-nakal:hover {
       background: #ff3366;
-      color: #0a0c10;
-      transform: scale(1.02);
-    }
-
-    /* BANNER PREMIUM (1 per halaman) */
-    .banner-premium {
-      margin: 24px 0 32px;
-      background: linear-gradient(135deg, #13161c 0%, #1c1e2a 100%);
-      border-radius: 24px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid rgba(255, 51, 102, 0.3);
-      transition: all 0.3s ease;
-    }
-    .banner-premium:hover {
-      border-color: #ff3366;
-      transform: translateY(-2px);
-    }
-    .banner-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .banner-logo {
-      font-size: 2rem;
-      font-weight: 900;
-    }
-    .banner-text {
-      font-size: 0.75rem;
-      font-weight: 500;
-      line-height: 1.3;
-    }
-    .banner-text strong {
-      color: #ff99bb;
-    }
-    .banner-cta {
-      background: rgba(255, 51, 102, 0.2);
-      border-radius: 40px;
-      padding: 6px 14px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #ff99bb;
+      color: #000;
       border: none;
+      padding: 12px 25px;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 0.8rem;
       cursor: pointer;
-      transition: 0.2s;
+      box-shadow: 4px 4px 0px #fff;
+      transition: 0.1s;
     }
-    .banner-cta:hover {
-      background: #ff3366;
-      color: #0a0c10;
-    }
+    .btn-nakal:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #fff; }
 
-    /* GRID ARTIKEL + VISUAL */
-    .articles-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      margin: 32px 0;
-    }
+    /* ARTICLES GRID - Layout Asimetris */
+    .articles-grid { gap: 40px; margin-top: 50px; }
     .article-card {
-      background: #13161c;
-      border-radius: 24px;
-      overflow: hidden;
-      transition: transform 0.25s ease, box-shadow 0.25s;
-      border: 1px solid #2a2a36;
-      display: flex;
-      flex-direction: column;
-    }
-    .article-card:hover {
-      transform: translateY(-4px) rotate(0.5deg);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
-      border-color: #ff3366;
+      background: transparent;
+      border: none;
+      margin-bottom: 30px;
     }
     .card-img {
-      height: 180px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      filter: grayscale(0.1) contrast(1.05);
-      transition: filter 0.3s;
-    }
-    .article-card:hover .card-img {
-      filter: grayscale(0) contrast(1.1);
-    }
-    .card-img::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 60%);
-      pointer-events: none;
-    }
-    .card-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: #ff3366;
-      color: black;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 40px;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
-    }
-    .card-content {
-      padding: 18px;
-    }
-    .rubrik-nakal {
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: #ff6699;
-      margin-bottom: 6px;
-      letter-spacing: -0.3px;
-      display: inline-block;
-      background: rgba(255,51,102,0.15);
-      padding: 2px 10px;
-      border-radius: 40px;
-    }
-    .article-card h3 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    .meta {
-      color: #8a8a9a;
-      font-size: 0.7rem;
-      margin-bottom: 12px;
-      display: flex;
-      gap: 8px;
-    }
-    .vibe-badge {
-      background: #2a2a36;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: #ff99bb;
-    }
-
-    /* INFOGRAFIK (DATA) */
-    .infografik-card {
-      background: #1a1d24;
-      border-radius: 28px;
-      padding: 20px;
-      margin: 24px 0;
-      border: 1px solid #ff3366;
-      position: relative;
-      overflow: hidden;
-    }
-    .infografik-card::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      right: -20px;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(255,51,102,0.2) 0%, rgba(0,0,0,0) 70%);
-      border-radius: 50%;
-    }
-    .infografik-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .infografik-title i {
-      color: #ff6699;
-    }
-    .chart-bar {
-      background: #2a2a36;
-      border-radius: 20px;
-      height: 12px;
-      margin: 12px 0;
-    }
-    .chart-fill {
-      background: linear-gradient(90deg, #ff3366, #ff99bb);
-      width: 68%;
-      height: 100%;
-      border-radius: 20px;
-    }
-
-    /* MICRO DRAMA (video card) */
-    .micro-drama {
-      background: #13161c;
-      border-radius: 24px;
-      overflow: hidden;
-      margin: 24px 0;
-      border: 1px solid #ff3366;
-    }
-    .drama-img {
       height: 200px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
+      border: 1px solid #2a2a36;
+      filter: sepia(0.3) contrast(1.1);
     }
-    .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,51,102,0.9);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .play-button:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    .drama-content {
-      padding: 18px;
+    .card-content { padding: 20px 0; }
+    .article-card h3 { 
+      font-size: 1.5rem; 
+      margin-top: 10px; 
+      text-decoration: underline;
+      text-underline-offset: 5px;
+      text-decoration-color: rgba(255, 51, 102, 0.5);
     }
 
-    /* PASAR NAKAL, DARAH MEDIA, POLLING (sama seperti sebelumnya, tapi disesuaikan) */
-    .pasar-nakal {
-      background: #1a1d24;
-      border-radius: 28px;
-      padding: 20px;
-      margin: 32px 0;
-      border: 1px solid #ff3366;
+    /* DATA NAKAL - Visual Lab Steril vs Realita */
+    .infografik-card {
+      background: #000;
+      border-left: 10px solid #ff3366;
+      padding: 30px;
+      font-family: 'Courier New', Courier, monospace; /* Font mesin tik */
     }
-    .pasar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 16px;
-    }
-    .pasar-header h3 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, #ff99bb);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .classified-item {
-      display: flex;
-      gap: 14px;
-      padding: 12px 0;
-      border-bottom: 1px solid #2a2a36;
-    }
-    .price-tag {
-      font-weight: 800;
-      color: #ff99bb;
-      margin-top: 4px;
-      font-size: 0.8rem;
-    }
+
+    /* DARAH MEDIA - Transparansi Kasar */
     .darah-media {
-      background: #0f1117;
-      border-radius: 28px;
-      padding: 20px;
-      margin: 32px 0;
-      text-align: center;
-      border: 1px solid #2a2a36;
+      background: #1e1e2a;
+      border: 2px dashed #ff3366;
+      padding: 25px;
+      text-align: left;
     }
-    .flow-bar {
-      background: #2a2a36;
-      border-radius: 20px;
-      height: 8px;
-      margin: 12px 0;
-      overflow: hidden;
+
+    /* NAV BOTTOM - Floating Dock */
+    .bottom-nav {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: 600px;
+      background: #000;
+      border: 1px solid #ff3366;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      z-index: 1000;
     }
-    .flow-fill {
-      width: 68%;
-      height: 100%;
-      background: linear-gradient(90deg, #ff3366, #ff99bb);
-      border-radius: 20px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
-    .polling-card {
-      background: #13161c;
-      border-radius: 24px;
-      padding: 20px;
-      margin-bottom: 24px;
-      border-left: 4px solid #ff3366;
-    }
+    .nav-item { color: #555; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 1px; }
+    .nav-item.active { color: #ff3366; font-weight: 900; }
 
     @media (min-width: 768px) {
-      .container {
-        max-width: 1000px;
-        padding: 0 32px;
-      }
-      .articles-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 28px;
-      }
-      .hero-img {
-        height: 280px;
-      }
-      .hero h1 {
-        font-size: 2.4rem;
-      }
+      .articles-grid { display: grid; grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
+
 <div class="top-bar">
   <div class="container">
-    <div class="lbs"><i class="fas fa-map-marker-alt"></i> Bandung · kamu di sini <span style="color:#ff6699; margin-left:6px;">ubah</span></div>
-    <i class="fas fa-search search-icon"></i>
+    <div class="lbs">BDG // 107.7 FM</div>
+    <i class="fas fa-search"></i>
   </div>
 </div>
 
 <div class="container">
   <div class="logo-area">
-    <div class="glitch-logo">Glitch <span>Bandung</span></div>
-    <div class="tagline">berpikir nakal · kontras yang mendewasakan</div>
+    <div class="glitch-logo">GLITCH <span>BDG</span></div>
+    <div class="tagline">Sebuah anomali dalam arus informasi.</div>
   </div>
 
-  <!-- HERO dengan gambar -->
   <div class="hero">
     <div class="hero-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/hero-air-vs-beton.png');"></div>
     <div class="hero-text">
-      <div class="hero-tag">#LOKAL_UTAMA</div>
-      <h1>Moratorium Hotel Bandung Utara: <span style="color:#ff6699;">Air vs Beton</span></h1>
-      <p>Warga Ciumbuleuit gerah. Pengusaha berdalih investasi. Glitch buka data tata ruang dan dokumen perizinan. Bukan sekadar polemik, tapi pilihan arah kota.</p>
-      <button class="btn-nakal">Baca selengkapnya <i class="fas fa-arrow-right"></i></button>
+      <h1>AIR VS BETON: SIAPA MENANG DI UTARA?</h1>
+      <p>Investigasi mendalam tentang serapan air yang berubah jadi pondasi hotel mewah. Data yang mereka sembunyikan, kami buka di sini.</p>
+      <button class="btn-nakal">AMBIL RISIKO BACA <i class="fas fa-bolt"></i></button>
     </div>
   </div>
 
-  <!-- BANNER PREMIUM (Telkomsel + Bank Jago) -->
-  <div class="banner-premium">
-    <div class="banner-left">
-      <div class="banner-logo">
-        <span style="color:#ff3366;">T</span><span style="color:#fff;">elkomsel</span> &nbsp;|&nbsp; <span style="color:#ff3366;">JAGO</span>
-      </div>
-      <div class="banner-text">
-        <strong>Super koneksi + super bank</strong><br>
-        <span style="font-size:0.65rem;">Internet tanpa batas · Bebas biaya admin</span>
-      </div>
-    </div>
-    <button class="banner-cta">#JadiNakal <i class="fas fa-arrow-right"></i></button>
-  </div>
-
-  <!-- GRID ARTIKEL (semua dengan gambar) -->
   <div class="articles-grid">
     <div class="article-card">
-      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-korupsi-bansos.png');"><div class="card-badge">LIAR</div></div>
+      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-korupsi-bansos.png');"></div>
       <div class="card-content">
-        <div class="rubrik-nakal">INVESTIGASI · KASAR</div>
-        <h3>Korupsi Bansos 12 Kabupaten: Aliran Uang ke Kantong Pejabat Terungkap</h3>
-        <div class="meta"><span><i class="far fa-clock"></i> 3 jam lalu</span><span class="vibe-badge">vibe: geram</span></div>
-        <p>Glitch mengantongi rekening koran dan kesaksian 17 penerima. Ada pola transfer melalui perusahaan cangkang.</p>
+        <span class="lbs">#LAPORAN_HITAM</span>
+        <h3>Aliran Dana Siluman: 12 Kabupaten Terjerat.</h3>
+        <p>Bukan sekadar angka, ini tentang nasi yang hilang dari piring warga.</p>
       </div>
     </div>
 
     <div class="article-card">
-      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-wawancara-lela.png');"><div class="card-badge">BISING</div></div>
+      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-wawancara-lela.png');"></div>
       <div class="card-content">
-        <div class="rubrik-nakal">SUARA WARGA · NAKAL</div>
-        <h3>“Kampung Tematik Itu Pencitraan!” – Lela, Aktivis Perkotaan</h3>
-        <div class="meta"><span><i class="far fa-clock"></i> 5 jam lalu</span><span class="vibe-badge">vibe: membongkar</span></div>
-        <p>Pertanyaan nakal: kenapa program pemkot malah bikin masyarakat kehilangan ruang? Jawabannya bikin merinding.</p>
-      </div>
-    </div>
-
-    <div class="article-card">
-      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-angklung-algoritma.png');"><div class="card-badge">GELAP</div></div>
-      <div class="card-content">
-        <div class="rubrik-nakal">BUDAYA · PECAH</div>
-        <h3>Angklung di Era Algoritma: Menjaga Harmoni Tanpa Jadi Nostalgia</h3>
-        <div class="meta"><span><i class="far fa-clock"></i> 2 hari lalu</span><span class="vibe-badge">vibe: inovatif</span></div>
-        <p>Generasi baru Padasuka meramu tradisi dengan konten digital. Nakal, tapi tetap akar.</p>
-      </div>
-    </div>
-
-    <div class="article-card">
-      <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-warung-kopi.png');"><div class="card-badge">MANIS</div></div>
-      <div class="card-content">
-        <div class="rubrik-nakal">EKONOMI · LOKAL</div>
-        <h3>Warung Kopi “Mangkok” Naik 40% Berkat Kolaborasi Petani</h3>
-        <div class="meta"><span><i class="far fa-clock"></i> 1 April</span><span class="vibe-badge">vibe: membumi</span></div>
-        <p>Model bisnis berkelanjutan menggerakkan ekonomi warga. Glitch menyoroti ceruk yang sering diabaikan.</p>
+        <span class="lbs">#SUARA_WARGA</span>
+        <h3>"KOTA INI BUKAN MILIK KAMI LAGI."</h3>
+        <p>Wawancara panas dengan Lela tentang ruang publik yang dikomodifikasi.</p>
       </div>
     </div>
   </div>
 
-  <!-- INFOGRAFIK (DATA) -->
   <div class="infografik-card">
-    <div class="infografik-title">
-      <i class="fas fa-chart-line"></i> DATA NAKAL
+    <h3>[ DATA_NAKAL.EXE ]</h3>
+    <p>Dana Desa 2026: Rp75 Triliun.<br>Terserap: 68%.<br>Menguap: ???%</p>
+    <div style="height: 20px; background: #2a2a36; margin: 10px 0; position: relative;">
+        <div style="width: 68%; height: 100%; background: #ff3366;"></div>
     </div>
-    <p><strong>Dana Desa 2026: Rp75 Triliun Tersebar ke 400 Kota</strong><br>Glitch lacak realisasi per kecamatan. Temuan: 12% dana mengendap di rekening desa.</p>
-    <div class="chart-bar"><div class="chart-fill" style="width: 68%;"></div></div>
-    <div style="display: flex; justify-content: space-between; font-size: 0.7rem;"><span>Realisasi fisik: 68%</span><span>Sisa anggaran: 32%</span></div>
-    <button class="btn-nakal" style="margin-top: 16px; width: 100%;">Lihat dataset lengkap <i class="fas fa-download"></i></button>
+    <small>> Lacak aliran uang sekarang.</small>
   </div>
 
-  <!-- MICRO DRAMA (wawancara nakal dalam format video) -->
-  <div class="micro-drama">
-    <div class="drama-img" style="background-image: url('https://placehold.co/800x500/2a1e2a/ff99bb?text=Micro+Drama+Glitch');">
-      <div class="play-button"><i class="fas fa-play"></i></div>
-    </div>
-    <div class="drama-content">
-      <div class="rubrik-nakal">MICRO DRAMA · WAWANCARA NAKAL</div>
-      <h3>“Kami Bukan Sampah Visual” — Mang Ujang, Pengayuh Becak</h3>
-      <div class="meta">Durasi: 2:34 · Tayang perdana</div>
-      <p>Ia tidak bicara tentang “melawan arus”. Ia bicara tentang trotoar yang didesain untuk kopi kekinian, bukan untuk manusia. Glitch merekam kesaksian yang menggugat.</p>
-      <button class="btn-nakal" style="margin-top: 12px;">Tonton episode penuh <i class="fas fa-play"></i></button>
-    </div>
-  </div>
-
-  <!-- PASAR NAKAL (iklan baris) -->
-  <div class="pasar-nakal">
-    <div class="pasar-header">
-      <h3>⚡ Pasar Lokal · Harga Nakal</h3>
-      <span style="font-size:0.7rem;">Rp50.000/7 hari</span>
-    </div>
-    <div class="classified-item">
-      <i class="fas fa-home"></i>
-      <div><strong>Rumah Cluster Setra Dago</strong> LT120, LB90, 2 lantai. Nego.<br><span class="price-tag">Rp 1.2 M</span> <span style="font-size:0.7rem;">· 4 hari lagi</span></div>
-    </div>
-    <div class="classified-item">
-      <i class="fas fa-car"></i>
-      <div><strong>Toyota Rush 2020</strong> Putih, 35k km, mulus.<br><span class="price-tag">Rp 220 jt</span> <span style="font-size:0.7rem;">· 2 hari lagi</span></div>
-    </div>
-    <div class="classified-item">
-      <i class="fas fa-bed"></i>
-      <div><strong>Kos Putri Dago</strong> AC, WiFi, kamar mandi dalam.<br><span class="price-tag">Rp 1.8 jt/bln</span> <span style="font-size:0.7rem;">· 6 hari lagi</span></div>
-    </div>
-    <button class="btn-nakal" style="width:100%; margin-top:12px;"><i class="fas fa-plus-circle"></i> Pasang iklan nakal</button>
-    <div class="editorial-note" style="margin-top:12px; font-size:0.65rem; text-align:center;">90% pendapatan untuk redaksi Glitch Bandung</div>
-  </div>
-
-  <!-- DARAH MEDIA (cash streaming) -->
   <div class="darah-media">
-    <h3>💰 Aliran darah media</h3>
-    <div class="flow-bar"><div class="flow-fill"></div></div>
-    <div>Pendapatan bersih Glitch Bandung bulan ini: <strong style="color:#ff6699;">Rp 12.340.000</strong><br><span style="font-size:0.7rem;">(pajak ditanggung pusat · real-time split)</span></div>
-    <div class="editorial-note" style="margin-top:12px;"><i class="fas fa-chart-line"></i> Iklan lokal → 90% ke daerah. Iklan nasional → 70% pool performa daerah.</div>
-  </div>
-
-  <!-- POLLING NAKAL -->
-  <div class="polling-card">
-    <div class="rubrik-nakal">POLLING · BERANIKAH KAMU?</div>
-    <h3>Setujukah moratorium hotel di Bandung Utara?</h3>
-    <progress value="68" max="100" style="width:100%; height:8px; accent-color:#ff3366;"></progress>
-    <div style="display:flex; justify-content:space-between; margin-top:8px;"><span>68% setuju</span><span>22% tidak</span></div>
-    <button class="btn-nakal" style="margin-top:16px; width:100%;">Suara Nakal</button>
+    <h3>💰 CASHFLOW_REALTIME</h3>
+    <p>Pendapatan bulan ini: <strong>Rp 12.340.000</strong></p>
+    <p style="font-size: 0.6rem; color: #8a8a9a;">90% dari iklan lokal dialokasikan untuk operasional jurnalisme warga.</p>
   </div>
 </div>
 
-<!-- BOTTOM NAVIGATION -->
 <div class="bottom-nav">
-  <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Beranda</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-globe"></i><span>Nasional</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-skull"></i><span>Investigasi</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-users"></i><span>Suara Warga</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-chart-line"></i><span>Data</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-palette"></i><span>Budaya</span></a>
-  <a href="#" class="nav-item"><i class="fas fa-gamepad"></i><span>Interaktif</span></a>
+  <a href="#" class="nav-item active">Home</a>
+  <a href="#" class="nav-item">Liar</a>
+  <a href="#" class="nav-item">Bising</a>
+  <a href="#" class="nav-item">Data</a>
+  <a href="#" class="nav-item">Vibe</a>
 </div>
 
-<script>
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-      item.classList.add('active');
-    });
-  });
-</script>
 </body>
 </html>
