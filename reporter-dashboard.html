@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Glitch // Reporter Dashboard</title>
+  <title>Glitch // Reporter Dashboard v1.1</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root { --pink: #ff3366; --bg: #0a0c10; --card: #13161c; --border: #2a2a36; --text: #eee; }
@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.5; }
 
-    /* --- 1. LOGIN OVERLAY (THE GATEKEEPER) --- */
+    /* --- 1. LOGIN OVERLAY (BARRIER) --- */
     #authOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center;
@@ -22,7 +22,6 @@
     }
     .login-box::before { content: "ENCRYPTED_ACCESS"; position: absolute; top: -10px; left: 20px; background: var(--pink); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; }
     
-    .login-box h2 { font-size: 1rem; letter-spacing: 3px; margin-bottom: 30px; color: #fff; text-transform: uppercase; }
     .login-input {
       width: 100%; background: #000; border: none; border-bottom: 2px solid var(--border);
       color: var(--pink); padding: 12px; text-align: center; font-size: 1.1rem;
@@ -31,19 +30,18 @@
     .login-input:focus { border-bottom-color: var(--pink); }
     .btn-login {
       width: 100%; padding: 15px; background: var(--pink); color: #000; border: none;
-      font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+      font-weight: 900; text-transform: uppercase; cursor: pointer;
     }
-    .btn-login:hover { letter-spacing: 1px; opacity: 0.9; }
 
-    /* --- 2. MAIN DASHBOARD CONTENT --- */
+    /* --- 2. MAIN DASHBOARD --- */
     #mainDashboard { display: none; padding: 40px 15px; }
     .container { max-width: 800px; margin: 0 auto; border: 1px solid var(--border); padding: 30px; background: var(--card); position: relative; }
-    .container::after { content: "GLITCH_SENSOR_v1.0"; position: absolute; top: -10px; right: 20px; background: var(--pink); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; }
+    .container::after { content: "GLITCH_SENSOR_v1.1"; position: absolute; top: -10px; right: 20px; background: var(--pink); color: #000; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; }
 
     .header-info { border-bottom: 1px solid var(--border); margin-bottom: 25px; padding-bottom: 15px; }
-    .header-info h1 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .header-info h1 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: -0.5px; }
 
-    /* ALERT BOX: 5W+1H REQUIREMENT */
+    /* STANDAR EMAS ALERT */
     .alert-box {
       background: rgba(255, 51, 102, 0.08); border-left: 3px solid var(--pink); 
       padding: 15px; margin-bottom: 25px;
@@ -59,7 +57,13 @@
       width: 100%; background: #000; border: 1px solid var(--border); color: #fff; padding: 12px;
       font-size: 0.9rem; outline: none; border-radius: 0;
     }
-    textarea:focus, select:focus { border-color: var(--pink); }
+    textarea:focus, input:focus, select:focus { border-color: var(--pink); }
+
+    /* HEADLINE INPUT */
+    .headline-input {
+      font-weight: 700; text-transform: uppercase; border-left: 3px solid var(--pink) !important;
+      font-size: 1.1rem !important; letter-spacing: 0.5px;
+    }
 
     /* UPLOAD ZONE */
     .upload-zone {
@@ -79,7 +83,7 @@
 
     #wordCounter { text-align: right; font-size: 0.65rem; color: #555; margin-top: 5px; font-family: monospace; }
 
-    /* GRAIN TEXTURE */
+    /* ANALOG OVERLAY */
     body::before {
       content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: url('https://www.transparenttextures.com/patterns/stardust.png');
@@ -91,11 +95,12 @@
 
 <div id="authOverlay">
   <div class="login-box">
-    <h2>Access Frequency</h2>
+    <h2 style="margin-bottom:10px;">ID VERIFICATION</h2>
+    <p style="font-size:0.6rem; color:#666; margin-bottom:25px;">Enter credentials for secure transmission</p>
     <input type="text" id="userField" class="login-input" placeholder="USERNAME" spellcheck="false">
-    <input type="password" id="pinField" class="login-input" placeholder="PIN (6-DIGIT)" maxlength="6">
-    <button class="btn-login" onclick="loginProcess()">Verify Identity</button>
-    <p id="msg" style="color:#ff3366; font-size:0.65rem; margin-top:15px; display:none; font-family:monospace;">ERROR: ACCESS_DENIED. CHECK CREDENTIALS.</p>
+    <input type="password" id="pinField" class="login-input" placeholder="6-DIGIT PIN" maxlength="6">
+    <button class="btn-login" onclick="loginProcess()">Connect to HQ</button>
+    <p id="msg" style="color:#ff3366; font-size:0.65rem; margin-top:15px; display:none; font-family:monospace;">ACCESS_DENIED: UNAUTHORIZED_ID</p>
   </div>
 </div>
 
@@ -107,14 +112,14 @@
     </div>
 
     <div class="alert-box">
-      <strong>Kaidah Wajib (Standar Emas):</strong>
-      <p>Tanpa elemen <strong>Who, What, Where, When, Why, dan How (5W+1H)</strong>, reportase Anda otomatis dianggap tidak layak siar oleh sistem kurasi pusat.</p>
+      <strong>Filter Integritas (Wajib):</strong>
+      <p>Data Anda akan otomatis ditolak jika tidak mengandung elemen <strong>Who, What, Where, When, Why, dan How (5W+1H)</strong> secara faktual.</p>
     </div>
 
     <form id="reportForm">
       <div class="param-grid">
         <div>
-          <label>Target Kota (Deploy)</label>
+          <label>Target Kota</label>
           <select id="cityCode">
             <option value="BDG">BANDUNG (BDG)</option>
             <option value="JKT">JAKARTA (JKT)</option>
@@ -124,7 +129,7 @@
           </select>
         </div>
         <div>
-          <label>Rubrik (Kategori)</label>
+          <label>Rubrik (Kanal)</label>
           <select id="rubrikId">
             <option value="LIAR">LIAR (Investigasi)</option>
             <option value="BISING">BISING (Suara Warga)</option>
@@ -134,41 +139,46 @@
         </div>
       </div>
 
+      <div class="input-group" style="margin-bottom:20px;">
+        <label>Judul Reportase (Internal Reference)</label>
+        <input type="text" id="rawTitle" class="headline-input" placeholder="RUMUSKAN GAGASAN UTAMA ANDA DI SINI...">
+        <p style="font-size:0.6rem; color:#555; margin-top:5px;">Editor Jakarta menggunakan judul ini untuk menilai ketajaman sudut pandang Anda.</p>
+      </div>
+
       <div class="input-group">
         <label>Narasi Mentah (Raw Content)</label>
-        <textarea id="rawContent" rows="10" placeholder="Tuliskan fakta mentah lapangan. Pastikan mengandung unsur 5W+1H secara eksplisit. Tim editorial akan menyempurnakan soul narasinya..."></textarea>
-        <div id="wordCounter">0 / 150 Kata</div>
+        <textarea id="rawContent" rows="10" placeholder="Tuliskan semua temuan lapangan. Jelaskan 5W+1H sejelas mungkin. Minimal 150 kata..."></textarea>
+        <div id="wordCounter">0 / 150 KATA</div>
       </div>
 
       <div class="input-group" style="margin-top:20px;">
-        <label>Raw Image (Basis DNA Visual)</label>
-        <div class="upload-zone" id="dropzone" onclick="document.getElementById('rawImg').click()">
+        <label>Raw Image (Bukti Visual Asli)</label>
+        <div class="upload-zone" onclick="document.getElementById('rawImg').click()">
           <i class="fas fa-camera"></i>
-          <p style="font-size:0.7rem; color:#888;" id="fileName">Sematkan 1 foto unik bukti lapangan</p>
+          <p style="font-size:0.7rem; color:#888;" id="fileName">Klik untuk menyematkan 1 foto unik lapangan</p>
           <input type="file" id="rawImg" accept="image/*" style="display:none">
         </div>
       </div>
 
       <button type="button" class="btn-send" id="submitBtn" disabled>
-        Push to Editorial Jakarta <i class="fas fa-satellite"></i>
+        Push Deploy to Jakarta HQ <i class="fas fa-bolt"></i>
       </button>
     </form>
     
-    <p style="text-align: center; color: #333; font-size: 0.6rem; margin-top: 20px; text-transform: uppercase;">Glitch Hyperlocal Network &copy; 2026</p>
+    <p style="text-align: center; color: #333; font-size: 0.6rem; margin-top: 25px; text-transform: uppercase;">Glitch Network &copy; 2026 // Hyperlocal Independent Press</p>
   </div>
 </div>
 
 <script>
-  // 1. AUTHENTICATION LOGIC
+  // 1. AUTH LOGIC
   function loginProcess() {
     const user = document.getElementById('userField').value;
     const pin = document.getElementById('pinField').value;
     
-    // Simple validation for prototype
     if(user.trim() !== "" && pin.length === 6 && !isNaN(pin)) {
       document.getElementById('authOverlay').style.display = 'none';
       document.getElementById('mainDashboard').style.display = 'block';
-      document.getElementById('welcomeMsg').innerText = `ID_REPORTER: ${user.toUpperCase()} // STATUS: ONLINE`;
+      document.getElementById('welcomeMsg').innerText = `ID_REP: ${user.toUpperCase()} // STATUS: SECURE_CONNECTION`;
     } else {
       const errorMsg = document.getElementById('msg');
       errorMsg.style.display = 'block';
@@ -176,17 +186,18 @@
     }
   }
 
-  // 2. REAL-TIME PARAMETRIC VALIDATION
-  const textarea = document.getElementById('rawContent');
+  // 2. VALIDATION LOGIC (TITLE, CONTENT, PHOTO)
+  const titleInput = document.getElementById('rawTitle');
+  const contentInput = document.getElementById('rawContent');
   const fileInput = document.getElementById('rawImg');
   const submitBtn = document.getElementById('submitBtn');
   const wordCounter = document.getElementById('wordCounter');
   const fileNameDisplay = document.getElementById('fileName');
 
   function validate() {
-    const text = textarea.value.trim();
-    // Word count calculation
-    const words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+    const titleText = titleInput.value.trim();
+    const contentText = contentInput.value.trim();
+    const words = contentText ? contentText.split(/\s+/).filter(w => w.length > 0).length : 0;
     const hasPhoto = fileInput.files.length > 0;
 
     wordCounter.innerText = `${words} / 150 KATA`;
@@ -202,26 +213,26 @@
       fileNameDisplay.style.color = "#ff3366";
     }
 
-    // Enable button only if both criteria met
-    if (words >= 150 && hasPhoto) {
+    // Must have Title + 150 Words + Photo
+    if (titleText.length > 5 && words >= 150 && hasPhoto) {
       submitBtn.disabled = false;
     } else {
       submitBtn.disabled = true;
     }
   }
 
-  textarea.addEventListener('input', validate);
+  [titleInput, contentInput].forEach(el => el.addEventListener('input', validate));
   fileInput.addEventListener('change', validate);
 
-  // 3. PUSH DEPLOY SIMULATION
+  // 3. PUSH SIMULATION
   submitBtn.addEventListener('click', () => {
-    submitBtn.innerHTML = "UPLOADING DATA... <i class='fas fa-sync fa-spin'></i>";
+    submitBtn.innerHTML = "TRANSMITTING DATA... <i class='fas fa-sync fa-spin'></i>";
     submitBtn.disabled = true;
     
     setTimeout(() => {
-      alert("SUCCESS: Laporan diterima Editorial Jakarta. Processing artikel mencakup narasi dan visual.");
+      alert("SUCCESS: Laporan terkirim. Menunggu restu Editor Jakarta untuk restorasi jiwa.");
       location.reload(); 
-    }, 2500);
+    }, 2000);
   });
 </script>
 
