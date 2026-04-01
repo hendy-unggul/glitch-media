@@ -1,0 +1,59 @@
+<div class="form-box">
+  <div class="header-info">
+    <h1><i class="fas fa-camera"></i> Input Reportase & Raw Image</h1>
+    <p style="color: #888;">Narasi minimal 150 kata + 1 Foto Mentah asli lapangan adalah WAJIB.</p>
+  </div>
+
+  <div class="param-grid">
+    <select id="cityCode"><option value="BDG">BDG</option>...</select>
+    <select id="rubrikId"><option value="LIAR">LIAR</option>...</select>
+    <input type="text" placeholder="ID Reporter">
+  </div>
+
+  <div class="input-group">
+    <label>Narasi Mentah (Raw Content)</label>
+    <textarea id="rawContent" rows="10" placeholder="Tuliskan fakta selengkapnya. Minimal 150 kata..."></textarea>
+    <div id="wordCount" style="text-align: right; font-size: 0.6rem; color: #555; margin-top: 5px;">0 / 150 Kata</div>
+  </div>
+
+  <div class="input-group" style="margin-top: 20px;">
+    <label>Raw Image (Bukti Visual Asli)</label>
+    <div class="file-upload-wrapper" style="border: 2px dashed #2a2a36; padding: 20px; text-align: center;">
+      <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #555; margin-bottom: 10px;"></i>
+      <input type="file" id="rawImage" accept="image/*" style="display: block; margin: 0 auto;">
+      <p style="font-size: 0.65rem; color: #888; margin-top: 10px;">Foto ini akan digunakan AI untuk menyempurnakan 'Soul' visual artikel.</p>
+    </div>
+  </div>
+
+  <button type="button" class="btn-deploy" id="submitBtn" disabled>
+    KIRIM KE KURASI JAKARTA <i class="fas fa-satellite"></i>
+  </button>
+</div>
+
+<script>
+  // Script validasi ganda (Kata & Foto)
+  const textarea = document.getElementById('rawContent');
+  const fileInput = document.getElementById('rawImage');
+  const counter = document.getElementById('wordCount');
+  const btn = document.getElementById('submitBtn');
+
+  function validateForm() {
+    const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+    const hasPhoto = fileInput.files.length > 0;
+    
+    counter.innerText = `${words} / 150 Kata`;
+    
+    if (words >= 150 && hasPhoto) {
+      counter.style.color = "#ff3366";
+      btn.disabled = false;
+      btn.style.borderColor = "#ff3366";
+    } else {
+      counter.style.color = "#555";
+      btn.disabled = true;
+      btn.style.borderColor = "#2a2a36";
+    }
+  }
+
+  textarea.addEventListener('input', validateForm);
+  fileInput.addEventListener('change', validateForm);
+</script>
