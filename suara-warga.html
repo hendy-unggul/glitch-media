@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Glitch – Suara Warga Nakal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ========== GLOBAL STYLES (sama seperti sebelumnya) ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background: #FEFAF5;
+      color: #1E2A2F;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+    .container { width: 100%; padding: 0 16px; margin: 0 auto; }
+    .glitch-logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #1E2A2F;
+      position: relative;
+      display: inline-block;
+      animation: glitch-skew 8s infinite ease-in-out;
+    }
+    .glitch-logo span {
+      color: #C45C2C;
+      position: relative;
+      display: inline-block;
+    }
+    @keyframes glitch-skew {
+      0% { transform: skew(0deg, 0deg); opacity: 1; }
+      95% { transform: skew(0deg, 0deg); opacity: 1; }
+      96% { transform: skew(2deg, 1deg); opacity: 0.9; }
+      97% { transform: skew(-1deg, -0.5deg); opacity: 0.95; }
+      98% { transform: skew(0deg, 0deg); opacity: 1; }
+      100% { transform: skew(0deg, 0deg); opacity: 1; }
+    }
+    .tagline {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #C45C2C;
+      background: rgba(196, 92, 44, 0.08);
+      padding: 2px 12px;
+      border-radius: 40px;
+      display: inline-block;
+    }
+    .top-bar {
+      background: #1E2A2F;
+      color: #E6E3DC;
+      padding: 8px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid #2D3E44;
+    }
+    .top-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .lbs-info {
+      background: #2D3E44;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+    }
+    .lbs-info i { color: #C45C2C; margin-right: 4px; }
+    .city-dropdown {
+      background: #2D3E44;
+      border: none;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-family: inherit;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .main-header {
+      background: #FEFAF5;
+      padding: 16px 0 0;
+      border-bottom: 1px solid #F0E4D8;
+    }
+    .logo-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .nav-links-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      margin-bottom: 12px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+      padding-bottom: 8px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #5C6E6B;
+      font-size: 0.85rem;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover, .nav-links .active {
+      color: #C45C2C;
+      border-bottom: 2px solid #C45C2C;
+      padding-bottom: 8px;
+    }
+    .content-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin: 32px 0;
+    }
+    .hero {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      border: 1px solid #F0E4D8;
+    }
+    .hero-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .hero-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #C45C2C;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 30px;
+    }
+    .hero-text { padding: 20px; }
+    .hero-text h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .meta {
+      color: #A67B5A;
+      font-size: 0.7rem;
+      margin-bottom: 12px;
+    }
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #F0E4D8;
+    }
+    .card-img {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+    }
+    .card-content { padding: 16px; }
+    .rubrik {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #C45C2C;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .card-content h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .widget {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid #F0E4D8;
+    }
+    .widget h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-left: 4px solid #C45C2C;
+      padding-left: 12px;
+      margin-bottom: 16px;
+    }
+    .trending-list { list-style: none; }
+    .trending-list li {
+      margin-bottom: 14px;
+      border-bottom: 1px solid #F5EDE6;
+      padding-bottom: 10px;
+    }
+    .trending-list a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #2E4A5C;
+      font-size: 0.85rem;
+    }
+    .trending-list span {
+      font-weight: 800;
+      color: #C45C2C;
+      margin-right: 10px;
+    }
+    .data-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+    .classified-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F0E4D8;
+    }
+    .classified-item i {
+      font-size: 1.3rem;
+      color: #C45C2C;
+    }
+    .btn-primary {
+      width: 100%;
+      background: #C45C2C;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-outline {
+      background: none;
+      border: 1px solid #C45C2C;
+      color: #C45C2C;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: #C45C2C; color: white; }
+    .grassroot-card {
+      background: #FFF7F0;
+      border-radius: 24px;
+      padding: 24px;
+      margin-top: 24px;
+      border: 1px solid #F0E4D8;
+    }
+    .interview-quote {
+      font-size: 1.1rem;
+      font-style: italic;
+      border-left: 4px solid #C45C2C;
+      padding-left: 20px;
+      margin: 20px 0;
+      color: #2E4A5C;
+    }
+    .editorial-note {
+      font-size: 0.65rem;
+      color: #A67B5A;
+      text-align: center;
+      margin-top: 12px;
+      border-top: 1px solid #F0E4D8;
+      padding-top: 10px;
+    }
+    .piramida-section {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      margin: 32px 0;
+      border: 1px solid #F0E4D8;
+    }
+    .piramida-section h3 { font-size: 1.2rem; margin-bottom: 16px; }
+    .piramida-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .piramida-grid > div {
+      flex: 1 1 calc(50% - 16px);
+      min-width: 120px;
+      font-size: 0.8rem;
+    }
+    .piramida-grid strong { color: #C45C2C; }
+    footer {
+      background: #1E2A2F;
+      color: #CFCDC4;
+      padding: 32px 0 20px;
+      margin-top: 32px;
+    }
+    .footer-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .footer-col h4 {
+      color: #C45C2C;
+      margin-bottom: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .footer-col a {
+      color: #CFCDC4;
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #2D464E;
+      font-size: 0.7rem;
+    }
+    @media (min-width: 768px) {
+      .container { padding: 0 24px; }
+      .glitch-logo { font-size: 2.2rem; }
+      .hero-img { height: 280px; }
+      .hero-text h1 { font-size: 1.8rem; }
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+      .content-grid {
+        flex-direction: row;
+        gap: 32px;
+      }
+      .content-grid #articles-container { flex: 2; }
+      .content-grid .sidebar { flex: 1; }
+      .footer-grid {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 32px;
+      }
+      .piramida-grid > div { flex: 1; }
+    }
+    @media (min-width: 1024px) {
+      .container { max-width: 1280px; }
+      .glitch-logo { font-size: 2.4rem; }
+      .hero-text h1 { font-size: 2rem; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #1A2428; color: #E6E3DC; }
+      .main-header, .hero, .card, .widget, .piramida-section, .grassroot-card {
+        background: #2A363B;
+        border-color: #3E4A4F;
+      }
+      .hero-text h1, .card-content h3, .widget h3 { color: #F0E4D8; }
+      .meta, .editorial-note { color: #A67B5A; }
+      .tagline { background: rgba(196, 92, 44, 0.15); }
+    }
+  </style>
+</head>
+<body>
+<div class="top-bar">
+  <div class="container">
+    <div class="lbs-info">
+      <i class="fas fa-users"></i> Suara Warga Glitch
+      <a href="index.html" style="color:#C45C2C; margin-left: 8px;">kembali ke daerah</a>
+    </div>
+    <select class="city-dropdown">
+      <option>Glitch Jayapura</option>
+      <option>Glitch Kupang</option>
+      <option>Glitch Bireuen</option>
+      <option>Glitch Makassar</option>
+    </select>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container">
+    <div class="logo-area">
+      <div>
+        <div class="glitch-logo">Glitch <span>Suara Warga</span></div>
+        <div class="tagline">berpikir nakal…</div>
+      </div>
+      <div><i class="fas fa-search" style="color:#C45C2C; font-size: 1.2rem; cursor:pointer;"></i></div>
+    </div>
+    <div class="nav-links-wrapper">
+      <div class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="nasional.html">Nasional</a>
+        <a href="investigasi.html">Investigasi</a>
+        <a href="suara-warga.html" class="active">Suara Warga</a>
+        <a href="#">Data</a>
+        <a href="#">Budaya</a>
+        <a href="#">Interaktif</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="content-grid">
+    <div id="articles-container">
+      <!-- Hero: Wawancara Nakal dengan KOL -->
+      <div class="hero">
+        <div class="hero-img" style="background-image: url('https://placehold.co/1200x600/4C6A5E/FFFFFF?text=KOL+Urban');">
+          <div class="hero-tag">WAWANCARA NAKAL</div>
+        </div>
+        <div class="hero-text">
+          <h1>“Kita Terlalu Lama Diam, Sekarang Giliran Kita Nakal” — Obrolan dengan Fatimah, Aktivis Perempuan Papua</h1>
+          <div class="meta"><i class="far fa-calendar-alt"></i> 2 April 2026 · Glitch Jayapura</div>
+          <p>Fatimah bukan aktivis kampus yang biasa. Ia mendirikan ruang aman bagi perempuan korban kekerasan di daerah konflik. Glitch bertanya tanpa basa-basi: “Kenapa kamu tidak takut?” Jawabannya membuka mata kita tentang keberanian yang lahir dari kepedihan. Wawancara eksklusif ini penuh kenakalan berpikir yang membangun kesadaran.</p>
+          <button class="btn-primary" style="width: auto; margin-top: 20px; padding: 10px 24px;">Baca wawancara →</button>
+        </div>
+      </div>
+
+      <!-- Card Grid: Suara KOL & Grassroot -->
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-img" style="background-image: url('https://placehold.co/600x400/9C7C5B/FFFFFF?text=Petani+Organik');"></div>
+          <div class="card-content">
+            <div class="rubrik">GRASSROOT · JAWA BARAT</div>
+            <h3>“Saya Tolak Pupuk Kimia, Meski Dibilang Kolot” — Kisah Petani Organik yang Menginspirasi</h3>
+            <div class="meta">1 hari lalu · Glitch Garut</div>
+            <p>Ia mengajak 20 petani lain beralih ke organik. Pendapatan naik, tanah lebih sehat. Tapi dukungan pemerintah masih minim. Glitch menyuarakan alternatif yang nyata.</p>
+            <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-image: url('https://placehold.co/600x400/4F7A6B/FFFFFF?text=Seniman+Luar+Jawa');"></div>
+          <div class="card-content">
+            <div class="rubrik">KOL · SENI & BUDAYA</div>
+            <h3>“Seni Jogja Tidak Sekadar Pasar Seni” — Wawancara Nakal dengan Kurator Independen</h3>
+            <div class="meta">3 hari lalu · Glitch Jogja</div>
+            <p>Dia membongkar komodifikasi seni dan bagaimana seniman lokal harus berani menentukan pasar, bukan sebaliknya. Kenakalan berpikir yang mencerahkan.</p>
+            <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-image: url('https://placehold.co/600x400/6C4F3A/FFFFFF?text=Nelayan');"></div>
+          <div class="card-content">
+            <div class="rubrik">GRASSROOT · MALUKU</div>
+            <h3>“Rumah Sakit Jauh, Kami Mati di Tengah Laut” — Kesaksian Nelayan soal Akses Kesehatan</h3>
+            <div class="meta">5 hari lalu · Glitch Ambon</div>
+            <p>Wawancara dengan 12 nelayan yang kehilangan keluarga karena lambatnya evakuasi medis. Glitch membawa suara mereka ke ruang kebijakan.</p>
+            <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-image: url('https://placehold.co/600x400/8D6B53/FFFFFF?text=Guru');"></div>
+          <div class="card-content">
+            <div class="rubrik">KOL · PENDIDIKAN</div>
+            <h3>“Kurikulum Merdeka Hanya Nama, Kami Merdeka dari Beban Administrasi?”</h3>
+            <div class="meta">2 hari lalu · Glitch Lombok</div>
+            <p>Seorang guru inovatif berbagi celah antara slogan dan realitas. Glitch mengupas data dan pengalaman langsung.</p>
+            <a href="#" style="color:#C45C2C; font-weight:500;">Baca →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grassroot Opini (empati dan kontras) -->
+      <div class="grassroot-card">
+        <div class="rubrik">SUARA AKAR RUMPUT</div>
+        <h3>“Saya Bukan Pengemis, Saya Pengusaha Sampah”</h3>
+        <div class="meta">Wawancara dengan Mak Siti, pemulung di Bantar Gebang</div>
+        <p>Ia mendirikan koperasi daur ulang yang memberdayakan 50 keluarga. Glitch tidak menampilkan kemiskinan sebagai objek kasihan, tetapi sebagai agen perubahan. Ini kontras yang mendewasakan.</p>
+        <div class="interview-quote">“Orang lihat saya, mereka lihat sampah. Saya lihat mereka, saya lihat pasar.”</div>
+        <button class="btn-outline" style="margin-top: 12px;">Baca profil lengkap →</button>
+      </div>
+
+      <!-- Blok partisipasi warga -->
+      <div style="display: flex; flex-direction: column; gap: 24px; margin: 32px 0;">
+        <div style="background: white; border-radius: 24px; padding: 20px; border:1px solid #F0E4D8;">
+          <div class="rubrik">SUARA ANDA</div>
+          <h3 style="margin: 8px 0;">Kirimkan Cerita Anda ke Glitch</h3>
+          <p>Glitch membuka ruang bagi warga untuk berbagi pengalaman, gagasan, atau kritik membangun. Kami akan memverifikasi dan menyunting bersama Anda. Bukan sekadar wadah, tapi kolaborasi jurnalisme.</p>
+          <button class="btn-outline" style="margin-top: 12px;">Kirim Cerita →</button>
+        </div>
+        <div style="background: white; border-radius: 24px; padding: 20px; border:1px solid #F0E4D8;">
+          <div class="rubrik">POLLING SUARA WARGA</div>
+          <h3>Apakah Anda merasa suara Anda didengar oleh pemerintah daerah?</h3>
+          <div><progress value="31" max="100" style="width:100%; height:8px; accent-color:#C45C2C;"></progress> 31% ya, kadang</div>
+          <div style="margin-top: 8px;"><progress value="62" max="100" style="width:100%; height:8px; accent-color:#C45C2C;"></progress> 62% tidak pernah</div>
+          <button class="btn-outline" style="margin-top: 16px; width: 100%;">Suarakan pendapat</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <!-- Data partisipasi -->
+      <div class="widget">
+        <h3><i class="fas fa-chart-line"></i> Partisipasi Warga</h3>
+        <div class="data-item"><span>📢 Cerita yang masuk (2026):</span> <strong>245 laporan</strong></div>
+        <div class="data-item"><span>✅ Diverifikasi & tayang:</span> <strong>78 cerita</strong></div>
+        <div class="data-item"><span>👥 KOL yang diwawancarai:</span> <strong>32 tokoh</strong></div>
+        <a href="#" style="color:#C45C2C; font-size:0.8rem;">Lihat arsip suara →</a>
+      </div>
+
+      <!-- Trending suara warga -->
+      <div class="widget">
+        <h3><i class="fas fa-fire"></i> Trending Suara Warga</h3>
+        <ul class="trending-list">
+          <li><span>1</span> <a href="#">Warga Tolak Pabrik Semen di Pegunungan</a></li>
+          <li><span>2</span> <a href="#">Kisah Perempuan Penyintas KDRT yang Kini Jadi Advokat</a></li>
+          <li><span>3</span> <a href="#">Anak Muda Desa Bangun Startup Agrikultur</a></li>
+          <li><span>4</span> <a href="#">Mengapa Transportasi Umum Tak Ramah Disabilitas?</a></li>
+        </ul>
+      </div>
+
+      <!-- Iklan baris untuk pemberdayaan -->
+      <div class="widget">
+        <h3><i class="fas fa-hand-holding-heart"></i> Dukung Gerakan Warga</h3>
+        <p style="font-size: 0.75rem;">Iklan dari komunitas lokal, 90% pendapatan untuk mereka.</p>
+        <div class="classified-item">
+          <i class="fas fa-seedling"></i>
+          <div><strong>Komunitas Urban Farming</strong> Cari donasi bibit dan alat. Info: 0813-xxxx</div>
+        </div>
+        <div class="classified-item">
+          <i class="fas fa-chalkboard"></i>
+          <div><strong>Ruang Belajar Anak Jalanan</strong> Butuh relawan mengajar. Kontak: 0852-xxxx</div>
+        </div>
+        <button class="btn-primary"><i class="fas fa-plus-circle"></i> Promosikan Komunitas Anda</button>
+        <div class="editorial-note">Glitch memfasilitasi tanpa biaya untuk gerakan akar rumput</div>
+      </div>
+
+      <!-- Aliran darah media -->
+      <div class="widget">
+        <h3>💰 Aliran darah media</h3>
+        <p style="font-size: 0.85rem;">Dana dari iklan dan donasi digunakan untuk biaya verifikasi dan pelatihan jurnalisme warga.</p>
+        <div style="background: #FFF7F0; border-radius: 16px; padding: 12px; margin-top: 8px;">
+          <i class="fas fa-chart-pie"></i> <strong>Pendapatan bersih (suara warga):</strong><br>
+          Rp 2.340.000 <span style="font-size:0.7rem;">(dari iklan dan donasi)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="piramida-section">
+    <h3>Piramida Berita Glitch: Kontras yang Mendewasakan</h3>
+    <div class="piramida-grid">
+      <div><strong>30% Hard news</strong><br>Lokal utama, kebijakan</div>
+      <div><strong>15% Investigasi</strong><br>Kenakalan berpikir</div>
+      <div><strong>15% Data & analisis</strong><br>Fakta, visual</div>
+      <div><strong>20% Human interest & budaya</strong><br>Suara warga (KOL & akar rumput)</div>
+      <div><strong>10% Esai & opini</strong><br>Pendewasaan wacana</div>
+      <div><strong>10% Interaktif</strong><br>Polling, partisipasi</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Glitch Network</h4><p>Federasi 400 kota · Jurnalisme berbasis bagi hasil adil dan transparan.</p></div>
+      <div class="footer-col"><h4>Edisi Lain</h4><a href="#">Glitch Jayapura</a><a href="#">Glitch Kupang</a><a href="#">Glitch Bireuen</a><a href="#">Semua kota →</a></div>
+      <div class="footer-col"><h4>Ikhtisar</h4><a href="#">Kode Etik</a><a href="#">Privasi & Data</a><a href="#">Bergabung sebagai mitra</a></div>
+      <div class="footer-col"><h4>berpikir nakal…</h4><p>Kontras, bukan oposisi.</p></div>
+    </div>
+    <div class="copyright">© 2026 Glitch Media Network · memberdayakan jurnalisme lokal dengan teknologi & keadilan ekonomi.</div>
+  </div>
+</footer>
+</body>
+</html>
