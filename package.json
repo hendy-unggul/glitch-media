@@ -1,0 +1,23 @@
+{
+  "name": "glitch-media",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
+}
+```
+
+5. Klik **Commit changes**
+
+Setelah itu upload folder `api/` dengan keempat file JS-nya ke GitHub — bisa drag & drop langsung di browser GitHub. Pastikan strukturnya seperti ini:
+```
+/
+├── api/
+│   ├── transmit.js
+│   ├── queue.js
+│   ├── publish.js
+│   └── reject.js
+├── reporter-dashboard.html
+├── editor-dashboard.html
+└── package.json
