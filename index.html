@@ -15,7 +15,9 @@
       color: #f0f0f0;
       line-height: 1.45;
       overflow-x: hidden;
-      padding-bottom: 100px;
+      /* Kunci: body minimal setinggi viewport, dan ada ruang untuk bottom nav */
+      min-height: 100vh;
+      padding-bottom: 80px;
       position: relative;
     }
     body::before {
@@ -80,7 +82,7 @@
       }
     }
 
-    /* ========== BOTTOM NAV (hanya ikon, tooltip hover) ========== */
+    /* ========== BOTTOM NAV - FIXED dan TETAP DI BAWAH ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -143,7 +145,7 @@
     }
     @media (hover: none) { .nav-item::after { display: none; } }
 
-    /* ========== TOP BAR & DROPDOWN KOTA (tanpa tombol "ubah") ========== */
+    /* ========== TOP BAR & DROPDOWN KOTA ========== */
     .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
     .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
     .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
@@ -186,21 +188,29 @@
     .preview-toggle-bar button:active { transform: scale(0.96); }
     .preview-toggle-bar span { color: #ff99bb; font-size: 0.7rem; align-self: center; }
 
-    /* Mode HP preview */
+    /* Mode HP preview: konten dibatasi 375px, bottom nav tetap fixed */
+    body.mobile-preview .container,
+    body.mobile-preview .top-bar .container {
+      max-width: 375px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.mobile-preview .bottom-nav {
+      width: 375px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      border-radius: 12px 12px 0 0;
+      background: #0a0c10;
+      border: none;
+      border-top: 2px solid #ff3366;
+    }
+    body.mobile-preview .top-bar { width: 375px; margin: 0 auto; position: sticky; top: 0; }
     body.mobile-preview .articles-grid {
       display: flex !important;
       flex-direction: column !important;
       grid-template-columns: unset !important;
     }
-    body.mobile-preview .container,
-    body.mobile-preview .top-bar .container,
-    body.mobile-preview .bottom-nav {
-      max-width: 375px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    body.mobile-preview .bottom-nav { width: 375px; left: auto; right: auto; margin: 0 auto; border-radius: 12px 12px 0 0; }
-    body.mobile-preview .top-bar { position: relative; width: 375px; margin: 0 auto; }
     .mobile-frame {
       max-width: 375px;
       margin: 0 auto;
