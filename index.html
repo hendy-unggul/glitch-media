@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>GLITCHMEDIA · Final dengan Toggle Kota & HP</title>
+  <title>GLITCHMEDIA · Final tanpa ubah & bottom nav ikon</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -80,7 +80,7 @@
       }
     }
 
-    /* ========== BOTTOM NAV ========== */
+    /* ========== BOTTOM NAV (hanya ikon, tanpa teks) ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -107,19 +107,17 @@
     }
     .nav-item {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
       color: #aaa;
       text-decoration: none;
-      font-size: 0.7rem;
-      font-weight: 500;
-      font-family: monospace;
-      padding: 4px 8px;
-      border-radius: 30px;
+      font-size: 1.3rem;
+      padding: 8px 12px;
+      border-radius: 40px;
       position: relative;
+      transition: all 0.2s;
     }
-    .nav-item i { font-size: 1.2rem; }
+    .nav-item i { font-size: 1.3rem; }
     .nav-item.active { color: #ff3366; }
     @media (hover: hover) {
       .nav-item::after {
@@ -130,26 +128,27 @@
         transform: translateX(-50%) translateY(-8px);
         background: #ff3366;
         color: #0a0c10;
-        font-size: 0.65rem;
+        font-size: 0.7rem;
         font-weight: bold;
-        padding: 4px 8px;
+        padding: 4px 10px;
         border-radius: 20px;
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s;
         z-index: 300;
+        font-family: monospace;
       }
       .nav-item:hover::after { opacity: 1; transform: translateX(-50%) translateY(-4px); }
     }
     @media (hover: none) { .nav-item::after { display: none; } }
 
-    /* ========== TOP BAR & DROPDOWN KOTA ========== */
+    /* ========== TOP BAR & DROPDOWN KOTA (tanpa tombol "ubah") ========== */
     .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
     .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
     .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
     .lbs i { color: #ff3366; }
-    .city-switch { background: none; border: none; color: #ff6699; cursor: pointer; font-size: 0.7rem; text-decoration: underline; margin-left: 6px; }
+    /* tombol "ubah" sudah dihapus */
     .city-dropdown { background: #1e1e2a; border: 1px solid #ff3366; color: white; padding: 4px 8px; font-family: monospace; font-size: 0.7rem; display: none; position: absolute; top: 50px; right: 20px; z-index: 101; }
     /* ikon kaca pembesar warna fuchsia untuk toggle dropdown kota */
     .search-icon {
@@ -298,7 +297,7 @@
       <div class="lbs">
         <i class="fas fa-map-marker-alt"></i> 
         <span id="cityName">Bandung</span>
-        <button id="changeCityBtn" class="city-switch">ubah</button>
+        <!-- tombol "ubah" sudah dihapus sesuai permintaan -->
       </div>
       <!-- Ikon kaca pembesar untuk toggle dropdown kota -->
       <i class="fas fa-search search-icon" id="toggleCityDropdown"></i>
@@ -352,14 +351,15 @@
     <div class="polling-card"><div class="rubrik-nakal">POLLING · BERANIKAH KAMU?</div><h3>Setujukah moratorium hotel di Bandung Utara?</h3><progress value="68" max="100"></progress><div style="display:flex; justify-content:space-between; margin-top:8px;"><span>68% setuju</span><span>22% tidak</span></div><button class="btn-nakal" style="margin-top:16px; width:100%;">Suara Nakal</button></div>
   </div>
 
+  <!-- BOTTOM NAV: hanya ikon, tanpa teks (tooltip hover tetap ada) -->
   <div class="bottom-nav">
-    <a href="#" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i><span>Beranda</span></a>
-    <a href="#" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i><span>Nasional</span></a>
-    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i><span>Investigasi</span></a>
-    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i><span>Suara Warga</span></a>
-    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i><span>Data</span></a>
-    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i><span>Budaya</span></a>
-    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i><span>Interaktif</span></a>
+    <a href="#" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
   </div>
 </div>
 
@@ -367,25 +367,16 @@
   // ========== DROPDOWN KOTA (via ikon kaca pembesar) ==========
   const cityList = ['Bandung', 'Jakarta', 'Surabaya', 'Medan', 'Makassar'];
   const cityNameSpan = document.getElementById('cityName');
-  const changeBtn = document.getElementById('changeCityBtn'); // tombol "ubah"
   const dropdown = document.getElementById('cityDropdown');
   const toggleCityIcon = document.getElementById('toggleCityDropdown');
 
-  // Fungsi untuk menampilkan dropdown
   function showDropdown() {
     dropdown.innerHTML = cityList.map(c => `<option value="${c}">Glitch ${c}</option>`).join('');
     dropdown.style.display = 'block';
     dropdown.focus();
   }
 
-  // Event klik pada ikon kaca pembesar
   toggleCityIcon.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showDropdown();
-  });
-
-  // Event klik pada tombol "ubah" juga tetap bisa
-  changeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     showDropdown();
   });
@@ -395,9 +386,8 @@
     dropdown.style.display = 'none';
   });
 
-  // Sembunyikan dropdown jika klik di luar
   document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && e.target !== toggleCityIcon && e.target !== changeBtn) {
+    if (!dropdown.contains(e.target) && e.target !== toggleCityIcon) {
       dropdown.style.display = 'none';
     }
   });
