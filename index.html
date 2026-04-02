@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>GLITCHMEDIA · Final tanpa ubah & bottom nav ikon</title>
+  <title>GLITCHMEDIA · Beranda Nakal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -80,7 +80,7 @@
       }
     }
 
-    /* ========== BOTTOM NAV (hanya ikon, tanpa teks) ========== */
+    /* ========== BOTTOM NAV (hanya ikon, tooltip hover) ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -148,9 +148,7 @@
     .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
     .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
     .lbs i { color: #ff3366; }
-    /* tombol "ubah" sudah dihapus */
     .city-dropdown { background: #1e1e2a; border: 1px solid #ff3366; color: white; padding: 4px 8px; font-family: monospace; font-size: 0.7rem; display: none; position: absolute; top: 50px; right: 20px; z-index: 101; }
-    /* ikon kaca pembesar warna fuchsia untuk toggle dropdown kota */
     .search-icon {
       font-size: 1.3rem;
       cursor: pointer;
@@ -220,7 +218,6 @@
     .btn-nakal { background: none; border: 1px solid #ff3366; color: #ff3366; padding: 8px 20px; font-weight: 700; font-family: monospace; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 2px 2px 0 rgba(255,51,102,0.3); transition: all 0.2s; }
     .btn-nakal:hover { background: #ff3366; color: #0a0c10; transform: translate(-2px, -2px); }
     
-    /* Banner premium rapi tanpa CTA */
     .banner-premium {
       background: #13161c;
       border: 1px solid #ff3366;
@@ -297,9 +294,7 @@
       <div class="lbs">
         <i class="fas fa-map-marker-alt"></i> 
         <span id="cityName">Bandung</span>
-        <!-- tombol "ubah" sudah dihapus sesuai permintaan -->
       </div>
-      <!-- Ikon kaca pembesar untuk toggle dropdown kota -->
       <i class="fas fa-search search-icon" id="toggleCityDropdown"></i>
       <select id="cityDropdown" class="city-dropdown"></select>
     </div>
@@ -321,16 +316,11 @@
       </div>
     </div>
 
-    <!-- BANNER PREMIUM tanpa CTA -->
+    <!-- BANNER PREMIUM -->
     <div class="banner-premium">
       <div class="banner-left">
-        <div class="banner-logo">
-          <span>T</span><span>elkomsel</span> <span style="color:#ff3366;">|</span> <span style="color:#ff3366;">JAGO</span>
-        </div>
-        <div class="banner-text">
-          <strong>Super koneksi + super bank</strong>
-          <small>Internet tanpa batas · Bebas biaya admin</small>
-        </div>
+        <div class="banner-logo"><span>T</span><span>elkomsel</span> <span style="color:#ff3366;">|</span> <span style="color:#ff3366;">JAGO</span></div>
+        <div class="banner-text"><strong>Super koneksi + super bank</strong><small>Internet tanpa batas · Bebas biaya admin</small></div>
       </div>
     </div>
 
@@ -351,21 +341,21 @@
     <div class="polling-card"><div class="rubrik-nakal">POLLING · BERANIKAH KAMU?</div><h3>Setujukah moratorium hotel di Bandung Utara?</h3><progress value="68" max="100"></progress><div style="display:flex; justify-content:space-between; margin-top:8px;"><span>68% setuju</span><span>22% tidak</span></div><button class="btn-nakal" style="margin-top:16px; width:100%;">Suara Nakal</button></div>
   </div>
 
-  <!-- BOTTOM NAV: hanya ikon, tanpa teks (tooltip hover tetap ada) -->
+  <!-- BOTTOM NAV: AKTIF dengan link ke semua halaman -->
   <div class="bottom-nav">
-    <a href="#" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
+    <a href="index.html" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
+    <a href="nasional.html" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
+    <a href="investigasi.html" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
+    <a href="suara-warga.html" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
+    <a href="data.html" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
+    <a href="budaya.html" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
+    <a href="interaktif.html" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
   </div>
 </div>
 
 <script>
-  // ========== DROPDOWN KOTA (via ikon kaca pembesar) ==========
-  const cityList = ['Bandung', 'Jakarta', 'Surabaya', 'Medan', 'Makassar'];
+  // ========== DROPDOWN KOTA via ikon kaca pembesar ==========
+  const cityList = ['Bandung', 'Jakarta', 'Surabaya', 'Medan', 'Makassar', 'Jayapura', 'Pontianak'];
   const cityNameSpan = document.getElementById('cityName');
   const dropdown = document.getElementById('cityDropdown');
   const toggleCityIcon = document.getElementById('toggleCityDropdown');
@@ -392,7 +382,7 @@
     }
   });
 
-  // ========== TOGGLE HP VIEW (floating button) ==========
+  // ========== TOGGLE HP VIEW ==========
   const enableBtn = document.getElementById('enableMobilePreview');
   const disableBtn = document.getElementById('disableMobilePreview');
   const bodyEl = document.body;
