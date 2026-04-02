@@ -466,6 +466,8 @@
     document.getElementById('finalHeadline').value = tx.headline_a;
     document.getElementById('finalHook').value = '';
     document.getElementById('editorNote').value = '';
+    document.getElementById('imageUrl').value = '';
+    document.getElementById('isHero').checked = false;
     document.getElementById('hookCount').textContent = '0 karakter';
     document.getElementById('headlineCount').textContent = tx.headline_a.length + ' karakter';
 
@@ -525,7 +527,9 @@
       chosen_option: selectedOption,
       chosen_content: selectedOption === 'A' ? tx.content_a : tx.content_b,
       city_code: tx.city_code,
-      rubrik_id: tx.rubrik_id
+      rubrik_id: tx.rubrik_id,
+      is_hero: document.getElementById('isHero').checked,
+      image_url: document.getElementById('imageUrl').value.trim() || null
     };
 
     try {
