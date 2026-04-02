@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>GLITCHMEDIA · Reportase 1 Kolom HP (Fix)</title>
+  <title>GLITCHMEDIA · Final dengan Toggle Kota & HP</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -46,7 +46,7 @@
       .container { max-width: 1000px; padding: 0 32px; }
     }
 
-    /* ========== TYPOGRAPHY HIERARCHY ========== */
+    /* ========== TYPOGRAPHY ========== */
     .glitch-logo { font-size: 2rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 6px; }
     .glitch-logo span { color: #ff3366; }
     .tagline { font-size: 0.7rem; font-weight: 500; font-family: 'Courier Prime', monospace; color: #ff99bb; }
@@ -56,7 +56,7 @@
     .article-card h3, .micro-drama h3 { font-size: 1.2rem; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
     .meta { font-size: 0.7rem; color: #8a8a9a; font-family: monospace; display: flex; gap: 12px; margin-bottom: 12px; }
 
-    /* ========== JARAK PROPORSIONAL ========== */
+    /* ========== JARAK ========== */
     .logo-area { margin-bottom: 24px; }
     .hero { margin-bottom: 40px; }
     .banner-premium { margin-bottom: 32px; }
@@ -66,13 +66,12 @@
     .pasar-nakal { margin-bottom: 40px; }
     .polling-card { margin-bottom: 32px; }
 
-    /* ========== REPORTASE: DEFAULT 1 KOLOM (mobile first) ========== */
+    /* ========== REPORTASE 1 KOLOM (mobile first) ========== */
     .articles-grid {
       display: flex;
       flex-direction: column;
       gap: 28px;
     }
-    /* Tablet/desktop: baru jadi 2 kolom */
     @media (min-width: 640px) {
       .articles-grid {
         display: grid;
@@ -81,7 +80,7 @@
       }
     }
 
-    /* ========== BOTTOM NAV + TOOLTIP HOVER ONLY DESKTOP ========== */
+    /* ========== BOTTOM NAV ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -145,7 +144,23 @@
     }
     @media (hover: none) { .nav-item::after { display: none; } }
 
-    /* ========== TOGGLE HP VIEW (fix untuk reportase 1 kolom) ========== */
+    /* ========== TOP BAR & DROPDOWN KOTA ========== */
+    .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+    .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+    .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+    .lbs i { color: #ff3366; }
+    .city-switch { background: none; border: none; color: #ff6699; cursor: pointer; font-size: 0.7rem; text-decoration: underline; margin-left: 6px; }
+    .city-dropdown { background: #1e1e2a; border: 1px solid #ff3366; color: white; padding: 4px 8px; font-family: monospace; font-size: 0.7rem; display: none; position: absolute; top: 50px; right: 20px; z-index: 101; }
+    /* ikon kaca pembesar warna fuchsia untuk toggle dropdown kota */
+    .search-icon {
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #ff3366;
+      transition: opacity 0.2s;
+    }
+    .search-icon:hover { opacity: 0.7; }
+
+    /* ========== FLOATING BUTTON TOGGLE HP VIEW ========== */
     .preview-toggle-bar {
       position: fixed;
       bottom: 100px;
@@ -174,13 +189,12 @@
     .preview-toggle-bar button:active { transform: scale(0.96); }
     .preview-toggle-bar span { color: #ff99bb; font-size: 0.7rem; align-self: center; }
 
-    /* mode preview aktif: paksa 1 kolom untuk reportase */
+    /* Mode HP preview */
     body.mobile-preview .articles-grid {
       display: flex !important;
       flex-direction: column !important;
       grid-template-columns: unset !important;
     }
-    /* juga pastikan semua container lebarnya 375px */
     body.mobile-preview .container,
     body.mobile-preview .top-bar .container,
     body.mobile-preview .bottom-nav {
@@ -199,21 +213,47 @@
       box-shadow: 0 0 0 4px #2a2a36, 0 0 0 8px #1e1e2a, 0 20px 40px rgba(0,0,0,0.5);
     }
 
-    /* ========== STYLE ELEMEN LAIN (brutalist) ========== */
-    .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
-    .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
-    .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
-    .lbs i { color: #ff3366; }
-    .city-switch { background: none; border: none; color: #ff6699; cursor: pointer; font-size: 0.7rem; text-decoration: underline; }
-    .city-dropdown { background: #1e1e2a; border: 1px solid #ff3366; color: white; padding: 4px 8px; font-family: monospace; font-size: 0.7rem; display: none; }
+    /* ========== STYLE ELEMEN LAIN ========== */
     .logo-area { border-left: 4px solid #ff3366; padding-left: 16px; }
     .hero { background: #13161c; border: 1px solid transparent; transition: all 0.2s; overflow: hidden; }
     .hero:hover { border-color: #ff3366; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 rgba(255,51,102,0.2); }
     .hero-tag { display: inline-block; background: #ff3366; color: #0a0c10; font-weight: 800; font-size: 0.7rem; padding: 4px 12px; margin-bottom: 12px; }
     .btn-nakal { background: none; border: 1px solid #ff3366; color: #ff3366; padding: 8px 20px; font-weight: 700; font-family: monospace; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 2px 2px 0 rgba(255,51,102,0.3); transition: all 0.2s; }
     .btn-nakal:hover { background: #ff3366; color: #0a0c10; transform: translate(-2px, -2px); }
-    .banner-premium { background: #13161c; border: 1px solid #ff3366; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; box-shadow: 4px 4px 0 rgba(255,51,102,0.2); }
-    .banner-cta { background: none; border: 1px solid #ff3366; padding: 6px 14px; font-size: 0.7rem; font-weight: 700; color: #ff99bb; cursor: pointer; }
+    
+    /* Banner premium rapi tanpa CTA */
+    .banner-premium {
+      background: #13161c;
+      border: 1px solid #ff3366;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 4px 4px 0 rgba(255,51,102,0.2);
+    }
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .banner-logo {
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: monospace;
+      letter-spacing: -0.5px;
+    }
+    .banner-logo span:first-child { color: #ff3366; }
+    .banner-logo span:last-child { color: #f0f0f0; }
+    .banner-text {
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: monospace;
+      line-height: 1.3;
+    }
+    .banner-text strong { color: #ff99bb; }
+    .banner-text small { font-size: 0.65rem; color: #aaa; display: block; }
+    
     .article-card { background: #13161c; border: 1px solid #2a2a36; overflow: hidden; transition: all 0.2s; }
     .article-card:hover { border-color: #ff3366; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 rgba(255,51,102,0.2); }
     .card-badge { position: absolute; top: 12px; left: 12px; background: #ff3366; color: black; font-weight: 800; padding: 4px 12px; font-size: 0.65rem; z-index: 2; }
@@ -245,7 +285,7 @@
 </head>
 <body>
 
-<!-- Toggle HP View -->
+<!-- FLOATING BUTTON TOGGLE HP VIEW -->
 <div class="preview-toggle-bar">
   <span>📱 Mode HP</span>
   <button id="enableMobilePreview">Aktifkan</button>
@@ -255,9 +295,14 @@
 <div id="mainContent">
   <div class="top-bar">
     <div class="container">
-      <div class="lbs"><i class="fas fa-map-marker-alt"></i> <span id="cityName">Bandung</span> · <button id="changeCityBtn" class="city-switch">Opsi</button></div>
+      <div class="lbs">
+        <i class="fas fa-map-marker-alt"></i> 
+        <span id="cityName">Bandung</span>
+        <button id="changeCityBtn" class="city-switch">ubah</button>
+      </div>
+      <!-- Ikon kaca pembesar untuk toggle dropdown kota -->
+      <i class="fas fa-search search-icon" id="toggleCityDropdown"></i>
       <select id="cityDropdown" class="city-dropdown"></select>
-      <i class="fas fa-search search-icon"></i>
     </div>
   </div>
 
@@ -277,12 +322,20 @@
       </div>
     </div>
 
+    <!-- BANNER PREMIUM tanpa CTA -->
     <div class="banner-premium">
-      <div class="banner-left"><div class="banner-logo"><span style="color:#ff3366;">T</span>elkomsel | <span style="color:#ff3366;">JAGO</span></div><div class="banner-text"><strong>Super koneksi + super bank</strong><br><span style="font-size:0.65rem;">Internet tanpa batas · Bebas biaya admin</span></div></div>
-      <button class="banner-cta">#JadiNakal <i class="fas fa-arrow-right"></i></button>
+      <div class="banner-left">
+        <div class="banner-logo">
+          <span>T</span><span>elkomsel</span> <span style="color:#ff3366;">|</span> <span style="color:#ff3366;">JAGO</span>
+        </div>
+        <div class="banner-text">
+          <strong>Super koneksi + super bank</strong>
+          <small>Internet tanpa batas · Bebas biaya admin</small>
+        </div>
+      </div>
     </div>
 
-    <!-- REPORTASE GRID: sekarang di HP mode preview DIPAKSA 1 kolom -->
+    <!-- ARTICLES GRID -->
     <div class="articles-grid">
       <div class="article-card"><div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-korupsi-bansos.png');"><div class="card-badge">LIAR</div></div><div class="card-content"><div class="rubrik-nakal">INVESTIGASI · KASAR</div><h3>Korupsi Bansos 12 Kabupaten: Aliran Uang ke Kantong Pejabat Terungkap</h3><div class="meta"><span><i class="far fa-clock"></i> 3 jam lalu</span><span class="vibe-badge">vibe: geram</span></div><p>Glitch mengantongi rekening koran dan kesaksian 17 penerima. Ada pola transfer melalui perusahaan cangkang.</p></div></div>
       <div class="article-card"><div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/card-wawancara-lela.png');"><div class="card-badge">BISING</div></div><div class="card-content"><div class="rubrik-nakal">SUARA WARGA · NAKAL</div><h3>“Kampung Tematik Itu Pencitraan!” – Lela, Aktivis Perkotaan</h3><div class="meta"><span><i class="far fa-clock"></i> 5 jam lalu</span><span class="vibe-badge">vibe: membongkar</span></div><p>Pertanyaan nakal: kenapa program pemkot malah bikin masyarakat kehilangan ruang? Jawabannya bikin merinding.</p></div></div>
@@ -300,56 +353,90 @@
   </div>
 
   <div class="bottom-nav">
-    <a href="#" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
+    <a href="#" class="nav-item active" data-tooltip="Beranda"><i class="fas fa-home"></i><span>Beranda</span></a>
+    <a href="#" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i><span>Nasional</span></a>
+    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i><span>Investigasi</span></a>
+    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i><span>Suara Warga</span></a>
+    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i><span>Data</span></a>
+    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i><span>Budaya</span></a>
+    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i><span>Interaktif</span></a>
   </div>
 </div>
 
 <script>
-  // City switching
+  // ========== DROPDOWN KOTA (via ikon kaca pembesar) ==========
   const cityList = ['Bandung', 'Jakarta', 'Surabaya', 'Medan', 'Makassar'];
   const cityNameSpan = document.getElementById('cityName');
-  const changeBtn = document.getElementById('changeCityBtn');
+  const changeBtn = document.getElementById('changeCityBtn'); // tombol "ubah"
   const dropdown = document.getElementById('cityDropdown');
-  changeBtn.addEventListener('click', () => {
+  const toggleCityIcon = document.getElementById('toggleCityDropdown');
+
+  // Fungsi untuk menampilkan dropdown
+  function showDropdown() {
     dropdown.innerHTML = cityList.map(c => `<option value="${c}">Glitch ${c}</option>`).join('');
     dropdown.style.display = 'block';
     dropdown.focus();
-  });
-  dropdown.addEventListener('change', () => { cityNameSpan.innerText = dropdown.value; dropdown.style.display = 'none'; });
-  document.addEventListener('click', (e) => { if (!dropdown.contains(e.target) && e.target !== changeBtn) dropdown.style.display = 'none'; });
+  }
 
-  // ========== TOGGLE HP VIEW (dengan paksa 1 kolom) ==========
+  // Event klik pada ikon kaca pembesar
+  toggleCityIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showDropdown();
+  });
+
+  // Event klik pada tombol "ubah" juga tetap bisa
+  changeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showDropdown();
+  });
+
+  dropdown.addEventListener('change', () => {
+    cityNameSpan.innerText = dropdown.value;
+    dropdown.style.display = 'none';
+  });
+
+  // Sembunyikan dropdown jika klik di luar
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && e.target !== toggleCityIcon && e.target !== changeBtn) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  // ========== TOGGLE HP VIEW (floating button) ==========
   const enableBtn = document.getElementById('enableMobilePreview');
   const disableBtn = document.getElementById('disableMobilePreview');
   const bodyEl = document.body;
   const mainContentDiv = document.getElementById('mainContent');
+  let isMobilePreview = false;
 
   function enableMobileFrame() {
-    bodyEl.classList.add('mobile-preview');
-    if (!document.querySelector('.mobile-frame')) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'mobile-frame';
-      mainContentDiv.parentNode.insertBefore(wrapper, mainContentDiv);
-      wrapper.appendChild(mainContentDiv);
-      wrapper.style.background = '#0a0c10';
+    if (!isMobilePreview) {
+      bodyEl.classList.add('mobile-preview');
+      if (!document.querySelector('.mobile-frame')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'mobile-frame';
+        mainContentDiv.parentNode.insertBefore(wrapper, mainContentDiv);
+        wrapper.appendChild(mainContentDiv);
+        wrapper.style.background = '#0a0c10';
+      }
+      document.documentElement.style.overflowX = 'hidden';
+      isMobilePreview = true;
     }
-    document.documentElement.style.overflowX = 'hidden';
   }
+
   function disableMobileFrame() {
-    bodyEl.classList.remove('mobile-preview');
-    const frame = document.querySelector('.mobile-frame');
-    if (frame && frame.contains(mainContentDiv)) {
-      frame.parentNode.insertBefore(mainContentDiv, frame);
-      frame.remove();
+    if (isMobilePreview) {
+      bodyEl.classList.remove('mobile-preview');
+      const frame = document.querySelector('.mobile-frame');
+      if (frame && frame.contains(mainContentDiv)) {
+        frame.parentNode.insertBefore(mainContentDiv, frame);
+        frame.remove();
+      }
+      document.documentElement.style.overflowX = '';
+      isMobilePreview = false;
     }
-    document.documentElement.style.overflowX = '';
   }
+
   enableBtn.addEventListener('click', enableMobileFrame);
   disableBtn.addEventListener('click', disableMobileFrame);
 </script>
