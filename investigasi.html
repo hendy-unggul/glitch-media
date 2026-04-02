@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ========== RESET & BASE (sama persis dengan index.html final) ========== */
+    /* ========== RESET & BASE (konsisten dengan semua halaman) ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', 'Courier Prime', monospace;
@@ -80,7 +80,7 @@
       }
     }
 
-    /* ========== BOTTOM NAV (hanya ikon, tanpa teks, tooltip hover) ========== */
+    /* ========== BOTTOM NAV (hanya ikon, tooltip hover) ========== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -143,7 +143,7 @@
     }
     @media (hover: none) { .nav-item::after { display: none; } }
 
-    /* ========== TOP BAR & DROPDOWN KOTA (tanpa tombol "ubah") ========== */
+    /* ========== TOP BAR & DROPDOWN KOTA ========== */
     .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
     .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
     .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
@@ -210,7 +210,7 @@
       box-shadow: 0 0 0 4px #2a2a36, 0 0 0 8px #1e1e2a, 0 20px 40px rgba(0,0,0,0.5);
     }
 
-    /* ========== STYLE ELEMEN LAIN (brutalist) ========== */
+    /* ========== STYLE ELEMEN LAIN ========== */
     .logo-area { border-left: 4px solid #ff3366; padding-left: 16px; }
     .hero { background: #13161c; border: 1px solid transparent; transition: all 0.2s; overflow: hidden; }
     .hero:hover { border-color: #ff3366; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 rgba(255,51,102,0.2); }
@@ -296,9 +296,7 @@
         <span id="cityName">Jakarta</span>
       </div>
       <i class="fas fa-search search-icon" id="toggleCityDropdown"></i>
-      <select id="cityDropdown" class="city-dropdown">
-        <option>Jakarta</option><option>Bandung</option><option>Surabaya</option><option>Medan</option><option>Makassar</option><option>Jayapura</option>
-      </select>
+      <select id="cityDropdown" class="city-dropdown"></select>
     </div>
   </div>
 
@@ -371,7 +369,7 @@
     <div class="infografik-card">
       <div class="infografik-title"><i class="fas fa-chart-line"></i> DATA NAKAL · KERUGIAN NEGARA</div>
       <p><strong>Rp8,7 Triliun</strong> kerugian negara akibat korupsi di 2025-2026 (data Glitch dari 12 provinsi).</p>
-      <div class="chart-bar"><div class="chart-fill" style="width: 74%;"></div></div>
+      <div class="chart-bar"><div class="chart-fill" style="width: 74%; background:#ff3366;"></div></div>
       <div style="display: flex; justify-content: space-between; font-size: 0.7rem;"><span>Kasus yang dilaporkan: 324</span><span>Tersangka pejabat: 78 orang</span></div>
       <button class="btn-nakal" style="margin-top: 16px; width: 100%;">Lihat dataset lengkap <i class="fas fa-download"></i></button>
     </div>
@@ -388,7 +386,7 @@
       </div>
     </div>
 
-    <!-- PASAR NAKAL (konteks investigasi) -->
+    <!-- PASAR NAKAL: DUKUNG INVESTIGASI -->
     <div class="pasar-nakal">
       <div class="pasar-header"><h3>⚡ Dukung Jurnalisme Investigasi</h3><span style="font-size:0.7rem;">Transparan 100%</span></div>
       <div class="classified-item"><i class="fas fa-gavel"></i><div><strong>Butuh Advokat Anti Korupsi?</strong> Konsultasi hukum gratis untuk pelapor. Hubungi LBH Glitch.</div></div>
@@ -407,15 +405,15 @@
     </div>
   </div>
 
-  <!-- BOTTOM NAV (AKTIF, tooltip hover) -->
+  <!-- BOTTOM NAV: AKTIF dengan link ke semua halaman -->
   <div class="bottom-nav">
     <a href="index.html" class="nav-item" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
     <a href="nasional.html" class="nav-item" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
     <a href="investigasi.html" class="nav-item active" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
-    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
+    <a href="suara-warga.html" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
+    <a href="data.html" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
+    <a href="budaya.html" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
+    <a href="interaktif.html" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
   </div>
 </div>
 
@@ -448,7 +446,7 @@
     }
   });
 
-  // ========== TOGGLE HP VIEW (floating button) ==========
+  // ========== TOGGLE HP VIEW ==========
   const enableBtn = document.getElementById('enableMobilePreview');
   const disableBtn = document.getElementById('disableMobilePreview');
   const bodyEl = document.body;
