@@ -740,8 +740,10 @@
     if (e.key === 'Enter') verifyPin();
   });
 
+  // ── TOKEN ──
+  const EDITOR_TOKEN = 'dafa4710daeb8638407340a926e6b614c435f6ba00d4361fe796bfed9ba2b65c';
+
   // ── QUEUE LOGIC ──
-  // Fetch antrian dari API (GET /api/queue) — ambil yang belum dipublish, FIFO
   async function loadQueue() {
     document.getElementById('loadingState').style.display = 'flex';
     document.getElementById('emptyState').style.display = 'none';
@@ -749,7 +751,9 @@
     disableActions();
 
     try {
-      const res = await fetch('/api/queue');
+      const res = await fetch('/api/queue', {
+        headers: { 'X-Editor-Token': EDITOR_TOKEN }
+      });
       if (!res.ok) throw new Error('Gagal fetch antrian');
       const data = await res.json();
 
@@ -864,7 +868,10 @@
     try {
       const res = await fetch('/api/publish', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Editor-Token': EDITOR_TOKEN
+        },
         body: JSON.stringify(payload)
       });
 
@@ -898,7 +905,10 @@
     try {
       const res = await fetch('/api/reject', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Editor-Token': EDITOR_TOKEN
+        },
         body: JSON.stringify({ transmission_id: currentTxId })
       });
 
