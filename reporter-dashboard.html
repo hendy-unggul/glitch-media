@@ -654,10 +654,28 @@
 
       await new Promise(r => setTimeout(r, 600));
 
-      // Simpan transmission_id untuk referensi, BUKAN full data
+      // Transmisi berhasil — tampilkan konfirmasi inline, reset form
       sessionStorage.setItem('lastTransmissionId', result.id);
       sessionStorage.setItem('lastTransmissionCity', result.city_code);
-      window.location.href = 'reporter-confirm.html';
+
+      overlay.classList.remove('show');
+
+      // Reset form
+      document.getElementById('rawTitle').value = '';
+      document.getElementById('rawContent').value = '';
+      checkForm();
+
+      // Tampilkan notif sukses
+      const notif = document.createElement('div');
+      notif.style.cssText = `
+        position:fixed; bottom:32px; left:50%; transform:translateX(-50%);
+        background:#0e1014; border:1px solid #2ecc71; color:#2ecc71;
+        font-family:var(--mono); font-size:0.65rem; letter-spacing:2px;
+        padding:16px 32px; z-index:300; white-space:nowrap;
+      `;
+      notif.textContent = `✓ TRANSMISI MASUK ANTRIAN — ID: ${result.id.substring(0,8).toUpperCase()}`;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 5000);
 
     } catch (err) {
       overlay.classList.remove('show');
