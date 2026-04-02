@@ -2,47 +2,489 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Glitch Nasional – berpikir nakal…</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>GLITCHMEDIA · Nasional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>/* SAMA seperti di index.html */</style>
+  <style>
+    /* ========== RESET & BASE (sama persis dengan index.html final) ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Courier Prime', monospace;
+      background: #0a0c10;
+      color: #f0f0f0;
+      line-height: 1.45;
+      overflow-x: hidden;
+      padding-bottom: 100px;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDYiLz48L3N2Zz4=');
+      background-repeat: repeat;
+      opacity: 0.2;
+      mix-blend-mode: overlay;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1e1e2a; }
+    ::-webkit-scrollbar-thumb { background: #ff3366; border-radius: 0; }
+
+    .container {
+      width: 100%;
+      padding: 0 20px;
+      margin: 0 auto;
+      max-width: 700px;
+    }
+    @media (min-width: 768px) {
+      .container { max-width: 1000px; padding: 0 32px; }
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    .glitch-logo { font-size: 2rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 6px; }
+    .glitch-logo span { color: #ff3366; }
+    .tagline { font-size: 0.7rem; font-weight: 500; font-family: 'Courier Prime', monospace; color: #ff99bb; }
+    .hero h1 { font-size: 1.6rem; font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
+    @media (min-width: 768px) { .hero h1 { font-size: 2rem; } }
+    .rubrik-nakal { font-size: 0.7rem; font-weight: 800; color: #ff6699; background: rgba(255,51,102,0.15); display: inline-block; padding: 3px 10px; margin-bottom: 8px; }
+    .article-card h3, .micro-drama h3 { font-size: 1.2rem; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
+    .meta { font-size: 0.7rem; color: #8a8a9a; font-family: monospace; display: flex; gap: 12px; margin-bottom: 12px; }
+
+    /* ========== JARAK ========== */
+    .logo-area { margin-bottom: 24px; }
+    .hero { margin-bottom: 40px; }
+    .banner-premium { margin-bottom: 32px; }
+    .articles-grid { margin-bottom: 40px; gap: 28px; }
+    .infografik-card { margin-bottom: 40px; }
+    .micro-drama { margin-bottom: 40px; }
+    .pasar-nakal { margin-bottom: 40px; }
+    .polling-card { margin-bottom: 32px; }
+
+    /* ========== REPORTASE 1 KOLOM (mobile first) ========== */
+    .articles-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    @media (min-width: 640px) {
+      .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+      }
+    }
+
+    /* ========== BOTTOM NAV (hanya ikon, tanpa teks) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #0a0c10;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 16px;
+      border-top: 2px solid #ff3366;
+      z-index: 200;
+    }
+    @media (min-width: 768px) {
+      .bottom-nav {
+        width: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 20px;
+        border: 1px solid #ff3366;
+        border-radius: 48px;
+        background: #0a0c10cc;
+        backdrop-filter: blur(8px);
+      }
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 1.3rem;
+      padding: 8px 12px;
+      border-radius: 40px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .nav-item i { font-size: 1.3rem; }
+    .nav-item.active { color: #ff3366; }
+    @media (hover: hover) {
+      .nav-item::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px);
+        background: #ff3366;
+        color: #0a0c10;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 300;
+        font-family: monospace;
+      }
+      .nav-item:hover::after { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+    }
+    @media (hover: none) { .nav-item::after { display: none; } }
+
+    /* ========== TOP BAR & DROPDOWN KOTA (tanpa tombol "ubah") ========== */
+    .top-bar { background: #0a0c10; border-bottom: 1px solid rgba(255,51,102,0.3); padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+    .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+    .lbs { font-size: 0.75rem; display: flex; align-items: center; gap: 6px; }
+    .lbs i { color: #ff3366; }
+    .city-dropdown { background: #1e1e2a; border: 1px solid #ff3366; color: white; padding: 4px 8px; font-family: monospace; font-size: 0.7rem; display: none; position: absolute; top: 50px; right: 20px; z-index: 101; }
+    .search-icon {
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #ff3366;
+      transition: opacity 0.2s;
+    }
+    .search-icon:hover { opacity: 0.7; }
+
+    /* ========== FLOATING BUTTON TOGGLE HP VIEW ========== */
+    .preview-toggle-bar {
+      position: fixed;
+      bottom: 100px;
+      right: 16px;
+      z-index: 10000;
+      background: #1e1e2a;
+      border: 1px solid #ff3366;
+      border-radius: 40px;
+      padding: 8px 16px;
+      display: flex;
+      gap: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .preview-toggle-bar button {
+      background: #ff3366;
+      border: none;
+      color: #0a0c10;
+      font-weight: bold;
+      font-family: monospace;
+      padding: 6px 14px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .preview-toggle-bar button:active { transform: scale(0.96); }
+    .preview-toggle-bar span { color: #ff99bb; font-size: 0.7rem; align-self: center; }
+
+    /* Mode HP preview */
+    body.mobile-preview .articles-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      grid-template-columns: unset !important;
+    }
+    body.mobile-preview .container,
+    body.mobile-preview .top-bar .container,
+    body.mobile-preview .bottom-nav {
+      max-width: 375px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    body.mobile-preview .bottom-nav { width: 375px; left: auto; right: auto; margin: 0 auto; border-radius: 12px 12px 0 0; }
+    body.mobile-preview .top-bar { position: relative; width: 375px; margin: 0 auto; }
+    .mobile-frame {
+      max-width: 375px;
+      margin: 0 auto;
+      background: #0a0c10;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 0 0 4px #2a2a36, 0 0 0 8px #1e1e2a, 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    /* ========== STYLE ELEMEN LAIN ========== */
+    .logo-area { border-left: 4px solid #ff3366; padding-left: 16px; }
+    .hero { background: #13161c; border: 1px solid transparent; transition: all 0.2s; overflow: hidden; }
+    .hero:hover { border-color: #ff3366; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 rgba(255,51,102,0.2); }
+    .hero-tag { display: inline-block; background: #ff3366; color: #0a0c10; font-weight: 800; font-size: 0.7rem; padding: 4px 12px; margin-bottom: 12px; }
+    .btn-nakal { background: none; border: 1px solid #ff3366; color: #ff3366; padding: 8px 20px; font-weight: 700; font-family: monospace; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 2px 2px 0 rgba(255,51,102,0.3); transition: all 0.2s; }
+    .btn-nakal:hover { background: #ff3366; color: #0a0c10; transform: translate(-2px, -2px); }
+    
+    .banner-premium {
+      background: #13161c;
+      border: 1px solid #ff3366;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 4px 4px 0 rgba(255,51,102,0.2);
+    }
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .banner-logo {
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: monospace;
+      letter-spacing: -0.5px;
+    }
+    .banner-logo span:first-child { color: #ff3366; }
+    .banner-logo span:last-child { color: #f0f0f0; }
+    .banner-text {
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: monospace;
+      line-height: 1.3;
+    }
+    .banner-text strong { color: #ff99bb; }
+    .banner-text small { font-size: 0.65rem; color: #aaa; display: block; }
+    
+    .article-card { background: #13161c; border: 1px solid #2a2a36; overflow: hidden; transition: all 0.2s; }
+    .article-card:hover { border-color: #ff3366; transform: translate(-2px, -2px); box-shadow: 8px 8px 0 rgba(255,51,102,0.2); }
+    .card-badge { position: absolute; top: 12px; left: 12px; background: #ff3366; color: black; font-weight: 800; padding: 4px 12px; font-size: 0.65rem; z-index: 2; }
+    .card-img { position: relative; background-size: cover; background-position: center; height: 180px; filter: grayscale(0.7) sepia(0.2); transition: filter 0.3s; }
+    .article-card:hover .card-img { filter: grayscale(0) sepia(0); }
+    .card-content { padding: 18px; }
+    .infografik-card { background: #1a1d24; border: 1px solid #ff3366; padding: 20px; box-shadow: 6px 6px 0 rgba(255,51,102,0.2); }
+    .chart-bar { background: #2a2a36; height: 12px; margin: 12px 0; border: 1px solid #ff3366; }
+    .chart-fill { background: #ff3366; width: 68%; height: 100%; }
+    .micro-drama { background: #13161c; border: 1px solid #ff3366; overflow: hidden; }
+    .drama-img { position: relative; background-size: cover; background-position: center; height: 200px; filter: grayscale(0.7) sepia(0.2); transition: filter 0.3s; }
+    .micro-drama:hover .drama-img { filter: grayscale(0) sepia(0); }
+    .play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,51,102,0.9); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; cursor: pointer; border-radius: 30px; border: 2px solid black; }
+    .drama-content { padding: 18px; }
+    .pasar-nakal { background: #1a1d24; border: 1px solid #ff3366; padding: 20px; }
+    .pasar-header { display: flex; justify-content: space-between; margin-bottom: 16px; }
+    .classified-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #2a2a36; }
+    .price-tag { font-weight: 800; color: #ff99bb; }
+    .polling-card { background: #13161c; padding: 20px; border-left: 4px solid #ff3366; }
+    progress { width: 100%; height: 8px; accent-color: #ff3366; }
+    .vibe-badge { background: #2a2a36; padding: 2px 8px; font-size: 0.65rem; color: #ff99bb; }
+    .hero-img { background-size: cover; background-position: center; height: 200px; filter: grayscale(0.7) sepia(0.2); transition: filter 0.3s; }
+    .hero:hover .hero-img { filter: grayscale(0) sepia(0); }
+    @media (min-width: 768px) {
+      .hero-img { height: 280px; }
+      .card-img { height: 200px; }
+    }
+  </style>
 </head>
 <body>
-<div class="top-bar">
+
+<!-- FLOATING BUTTON TOGGLE HP VIEW -->
+<div class="preview-toggle-bar">
+  <span>📱 Mode HP</span>
+  <button id="enableMobilePreview">Aktifkan</button>
+  <button id="disableMobilePreview" style="background:#2a2a36; color:#ff99bb;">Normal</button>
+</div>
+
+<div id="mainContent">
+  <div class="top-bar">
+    <div class="container">
+      <div class="lbs">
+        <i class="fas fa-map-marker-alt"></i> 
+        <span id="cityName">Nasional</span>
+      </div>
+      <i class="fas fa-search search-icon" id="toggleCityDropdown"></i>
+      <select id="cityDropdown" class="city-dropdown">
+        <option>Jakarta Pusat</option><option>Bandung</option><option>Surabaya</option><option>Medan</option><option>Makassar</option>
+      </select>
+    </div>
+  </div>
+
   <div class="container">
-    <div class="lbs-info"><i class="fas fa-globe-asia"></i> Edisi Nasional <a href="index.html" style="color:#C45C2C; margin-left:8px;">kembali ke daerah</a></div>
-    <select class="city-dropdown"><option>Glitch Jayapura</option><option>Glitch Kupang</option><option>Glitch Bireuen</option><option>Glitch Makassar</option></select>
+    <div class="logo-area">
+      <div class="glitch-logo">GLITCH<span>NASIONAL</span></div>
+      <div class="tagline">Berpikir nakal · lensa tanpa filter</div>
+    </div>
+
+    <!-- HERO UTAMA NASIONAL -->
+    <div class="hero">
+      <div class="hero-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/hero-minerba.jpg');"></div>
+      <div class="hero-text">
+        <div class="hero-tag">#UTAMA_NASIONAL</div>
+        <h1>Revisi UU Minerba: Antara <span style="color:#ff6699;">Pendapatan Negara</span> dan Keberlanjutan Ekologi</h1>
+        <p>Glitch mengumpulkan laporan dari 12 provinsi penghasil tambang. Ada celah ekspor yang dikhawatirkan memicu kerusakan lingkungan baru. Data dan dokumen internal dibuka untuk publik.</p>
+        <button class="btn-nakal">Baca investigasi <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- BANNER PREMIUM (sama dengan index) -->
+    <div class="banner-premium">
+      <div class="banner-left">
+        <div class="banner-logo"><span>T</span><span>elkomsel</span> <span style="color:#ff3366;">|</span> <span style="color:#ff3366;">JAGO</span></div>
+        <div class="banner-text"><strong>Super koneksi + super bank</strong><small>Internet tanpa batas · Bebas biaya admin</small></div>
+      </div>
+    </div>
+
+    <!-- ARTICLES GRID (konten nasional) -->
+    <div class="articles-grid">
+      <div class="article-card">
+        <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/kartu-prakerja.jpg');"><div class="card-badge">BOCORAN</div></div>
+        <div class="card-content">
+          <div class="rubrik-nakal">EKONOMI · DATA NAKAL</div>
+          <h3>Dana Kartu Prakerja 2026: Rp28 Triliun, Siapa yang Paling Diuntungkan?</h3>
+          <div class="meta"><span><i class="far fa-clock"></i> 1 jam lalu</span><span class="vibe-badge">vibe: curiga</span></div>
+          <p>Glitch melacak aliran dana ke 34 provinsi. Temuan: 23% penerima tidak memenuhi syarat, tapi lolos verifikasi.</p>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/pilkada-2026.jpg');"><div class="card-badge">GADUH</div></div>
+        <div class="card-content">
+          <div class="rubrik-nakal">POLITIK · KAMPANYE NAKAL</div>
+          <h3>Pilkada 2026: Lonjakan Politik Uang di 12 Kabupaten</h3>
+          <div class="meta"><span><i class="far fa-clock"></i> 3 jam lalu</span><span class="vibe-badge">vibe: geram</span></div>
+          <p>Bawaslu mencatat 87 laporan. Glitch wawancara dengan saksi mata yang mengaku dibagi amplop biru.</p>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/kesehatan-mental.jpg');"><div class="card-badge">RISET</div></div>
+        <div class="card-content">
+          <div class="rubrik-nakal">KESEHATAN · DATA</div>
+          <h3>Krisis Psikologis Anak Muda: 4 dari 10 Pernah Merasa Putus Asa</h3>
+          <div class="meta"><span><i class="far fa-clock"></i> 6 jam lalu</span><span class="vibe-badge">vibe: prihatin</span></div>
+          <p>Survei Glitch terhadap 5.000 responden, akses layanan kesehatan mental masih mahal dan minim.</p>
+        </div>
+      </div>
+      <div class="article-card">
+        <div class="card-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/transportasi-umum.jpg');"><div class="card-badge">MANIS</div></div>
+        <div class="card-content">
+          <div class="rubrik-nakal">INFRASTRUKTUR · TEROBOSAN</div>
+          <h3>LRT Jabodebek: Efektif atau Sekadar Gimmick?</h3>
+          <div class="meta"><span><i class="far fa-clock"></i> 1 hari lalu</span><span class="vibe-badge">vibe: analitis</span></div>
+          <p>Glitch hitung waktu tempuh vs KRL. Ada penurunan 28% waktu perjalanan, tapi okupasi masih di bawah target.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFOGRAFIK NASIONAL -->
+    <div class="infografik-card">
+      <div class="infografik-title"><i class="fas fa-chart-line"></i> DATA NAKAL · APBN 2026</div>
+      <p><strong>Subsidi energi membengkak 42% dibanding tahun lalu</strong><br>Glitch lacak kebocoran subsidi BBM dan listrik. Potensi kerugian negara mencapai Rp98 triliun.</p>
+      <div class="chart-bar"><div class="chart-fill" style="width: 74%;"></div></div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.7rem;"><span>Subsidi tepat sasaran: 26%</span><span>Subsidi tidak tepat: 74%</span></div>
+      <button class="btn-nakal" style="margin-top: 16px; width: 100%;">Lihat dataset lengkap <i class="fas fa-download"></i></button>
+    </div>
+
+    <!-- MICRO DRAMA NASIONAL -->
+    <div class="micro-drama">
+      <div class="drama-img" style="background-image: url('https://zfudjpclivegiapsbvfl.supabase.co/storage/v1/object/public/images/warga-papua.jpg');"><div class="play-button"><i class="fas fa-play"></i></div></div>
+      <div class="drama-content">
+        <div class="rubrik-nakal">MICRO DRAMA · SUARA PERIPHERI</div>
+        <h3>“Kami Bukan Pemasok Batu Bara” — Warga Kampung Batu, Kalimantan Timur</h3>
+        <div class="meta">Durasi: 3:12 · Tayang perdana</div>
+        <p>Debu batu bara masuk ke rumah mereka setiap hari. Perusahaan bilang sudah sesuai aturan. Glitch merekam langsung ketidakadilan yang tak terlihat.</p>
+        <button class="btn-nakal" style="margin-top: 12px;">Tonton episode penuh <i class="fas fa-play"></i></button>
+      </div>
+    </div>
+
+    <!-- PASAR NAKAL (nasional) -->
+    <div class="pasar-nakal">
+      <div class="pasar-header"><h3>⚡ Pasar Nakal · Properti & Gadget</h3><span style="font-size:0.7rem;">Update tiap jam</span></div>
+      <div class="classified-item"><i class="fas fa-building"></i><div><strong>Apartemen SCBD, Jakarta Selatan</strong> 2 BR, fully furnished, view city.<br><span class="price-tag">Rp 2.8 M</span> · 5 hari lagi</div></div>
+      <div class="classified-item"><i class="fas fa-mobile-alt"></i><div><strong>iPhone 16 Pro Max 1TB</strong> Garansi iBox, mulus.<br><span class="price-tag">Rp 24 jt</span> · 2 hari lagi</div></div>
+      <div class="classified-item"><i class="fas fa-motorcycle"></i><div><strong>Vespa Primavera 2025</strong> Odo 200 km, like new.<br><span class="price-tag">Rp 48 jt</span> · 6 hari lagi</div></div>
+      <button class="btn-nakal" style="width:100%; margin-top:12px;"><i class="fas fa-plus-circle"></i> Pasang iklan nakal</button>
+    </div>
+
+    <!-- POLLING NASIONAL -->
+    <div class="polling-card">
+      <div class="rubrik-nakal">POLLING · BERANIKAH KAMU?</div>
+      <h3>Setujukah moratorium tambang baru di Indonesia?</h3>
+      <progress value="72" max="100" style="width:100%; height:8px; accent-color:#ff3366;"></progress>
+      <div style="display:flex; justify-content:space-between; margin-top:8px;"><span>72% setuju</span><span>18% tidak</span><span>10% ragu</span></div>
+      <button class="btn-nakal" style="margin-top:16px; width:100%;">Suara Nakal</button>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV (sama persis dengan index) -->
+  <div class="bottom-nav">
+    <a href="index.html" class="nav-item" data-tooltip="Beranda"><i class="fas fa-home"></i></a>
+    <a href="nasional.html" class="nav-item active" data-tooltip="Nasional"><i class="fas fa-globe"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Investigasi"><i class="fas fa-skull"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Suara Warga"><i class="fas fa-users"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Data"><i class="fas fa-chart-line"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Budaya"><i class="fas fa-palette"></i></a>
+    <a href="#" class="nav-item" data-tooltip="Interaktif"><i class="fas fa-gamepad"></i></a>
   </div>
 </div>
 
-<header class="main-header">
-  <div class="container">
-    <div class="logo-area"><div><div class="glitch-logo">Glitch <span>Nasional</span></div><div class="tagline">berpikir nakal…</div></div><div><i class="fas fa-search" style="color:#C45C2C; font-size:1.2rem;"></i></div></div>
-    <div class="nav-links-wrapper"><div class="nav-links">
-      <a href="index.html">Beranda</a>
-      <a href="nasional.html" class="active">Nasional</a>
-      <a href="investigasi.html">Investigasi</a>
-      <a href="suara-warga.html">Suara Warga</a>
-      <a href="data.html">Data</a>
-      <a href="budaya.html">Budaya</a>
-      <a href="interaktif.html">Interaktif</a>
-    </div></div>
-  </div>
-</header>
+<script>
+  // ========== DROPDOWN KOTA (untuk halaman nasional, tetap pakai fungsi) ==========
+  const cityList = ['Jakarta Pusat', 'Bandung', 'Surabaya', 'Medan', 'Makassar', 'Jayapura', 'Pontianak'];
+  const cityNameSpan = document.getElementById('cityName');
+  const dropdown = document.getElementById('cityDropdown');
+  const toggleCityIcon = document.getElementById('toggleCityDropdown');
 
-<main class="container">
-  <div class="content-grid">
-    <div id="articles-container">
-      <!-- Hero, card grid, grassroot, dll. (konten nasional seperti sebelumnya) -->
-      <div class="hero"><div class="hero-img" style="background-image:url('https://placehold.co/1200x600/2E7D6E/FFFFFF?text=Kontras+Nasional');"><div class="hero-tag">UTAMA NASIONAL</div></div><div class="hero-text"><h1>Revisi UU Minerba: Antara Pendapatan Negara dan Keberlanjutan Ekologi</h1><div class="meta"><i class="far fa-calendar-alt"></i> 2 April 2026 · Glitch Nasional</div><p>Glitch mengumpulkan laporan dari 12 provinsi penghasil tambang...</p><button class="btn-primary" style="width:auto;">Baca investigasi →</button></div></div>
-      <div class="card-grid"><!-- 4 card contoh nasional --></div>
-      <div class="grassroot-card"><!-- ... --></div>
-    </div>
-    <div class="sidebar"><!-- widget nasional --></div>
-  </div>
-  <div class="piramida-section"><!-- piramida --></div>
-</main>
-<footer>...</footer>
+  function showDropdown() {
+    dropdown.innerHTML = cityList.map(c => `<option value="${c}">Glitch ${c}</option>`).join('');
+    dropdown.style.display = 'block';
+    dropdown.focus();
+  }
+
+  toggleCityIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showDropdown();
+  });
+
+  dropdown.addEventListener('change', () => {
+    cityNameSpan.innerText = dropdown.value;
+    dropdown.style.display = 'none';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target) && e.target !== toggleCityIcon) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  // ========== TOGGLE HP VIEW (floating button) ==========
+  const enableBtn = document.getElementById('enableMobilePreview');
+  const disableBtn = document.getElementById('disableMobilePreview');
+  const bodyEl = document.body;
+  const mainContentDiv = document.getElementById('mainContent');
+  let isMobilePreview = false;
+
+  function enableMobileFrame() {
+    if (!isMobilePreview) {
+      bodyEl.classList.add('mobile-preview');
+      if (!document.querySelector('.mobile-frame')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'mobile-frame';
+        mainContentDiv.parentNode.insertBefore(wrapper, mainContentDiv);
+        wrapper.appendChild(mainContentDiv);
+        wrapper.style.background = '#0a0c10';
+      }
+      document.documentElement.style.overflowX = 'hidden';
+      isMobilePreview = true;
+    }
+  }
+
+  function disableMobileFrame() {
+    if (isMobilePreview) {
+      bodyEl.classList.remove('mobile-preview');
+      const frame = document.querySelector('.mobile-frame');
+      if (frame && frame.contains(mainContentDiv)) {
+        frame.parentNode.insertBefore(mainContentDiv, frame);
+        frame.remove();
+      }
+      document.documentElement.style.overflowX = '';
+      isMobilePreview = false;
+    }
+  }
+
+  enableBtn.addEventListener('click', enableMobileFrame);
+  disableBtn.addEventListener('click', disableMobileFrame);
+</script>
 </body>
 </html>
