@@ -8,138 +8,244 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink: #ff2d55;
-      --pink-dim: rgba(255,45,85,0.12);
-      --bg: #070809;
-      --card: #0e1014;
-      --surface: #13161c;
-      --border: rgba(255,255,255,0.07);
-      --border-hot: rgba(255,45,85,0.4);
-      --text: #e8e8e8;
-      --muted: #5a5e6a;
-      --mono: 'Space Mono', monospace;
-      --sans: 'DM Sans', sans-serif;
-      --green: #2ecc71;
-      --amber: #f39c12;
+      --pink: #ff2d55; --pink-dim: rgba(255,45,85,0.10);
+      --bg: #070809; --card: #0e1014; --surface: #13161c;
+      --border: rgba(255,255,255,0.07); --border-hot: rgba(255,45,85,0.4);
+      --text: #e8e8e8; --muted: #5a5e6a;
+      --green: #2ecc71; --amber: #f39c12; --red: #e74c3c;
+      --mono: 'Space Mono', monospace; --sans: 'DM Sans', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
     body::before { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); pointer-events: none; z-index: 9999; }
 
-    /* AUTH */
-    #authScreen { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; transition: opacity 0.5s, transform 0.5s; }
+    /* ── AUTH ── */
+    #authScreen { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.5s, transform 0.5s; }
     #authScreen.exit { opacity: 0; transform: translateY(-20px); pointer-events: none; }
     .auth-tag { font-family: var(--mono); font-size: 0.6rem; color: var(--pink); letter-spacing: 4px; margin-bottom: 32px; opacity: 0.7; }
     .auth-box { width: 340px; border: 1px solid var(--border-hot); background: var(--card); padding: 40px; position: relative; }
     .auth-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--pink), transparent); }
-    .auth-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 28px; text-align: center; }
+    .auth-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 3px; color: var(--muted); margin-bottom: 28px; text-align: center; }
     .pin-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 28px; }
     .pin-dot { width: 14px; height: 14px; border: 1px solid var(--border-hot); border-radius: 50%; transition: background 0.15s; }
     .pin-dot.filled { background: var(--pink); border-color: var(--pink); box-shadow: 0 0 8px rgba(255,45,85,0.5); }
     .auth-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .key { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 1rem; padding: 16px; cursor: pointer; text-align: center; transition: background 0.15s, border-color 0.15s; }
+    .key { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 1rem; padding: 16px; cursor: pointer; text-align: center; transition: all 0.15s; }
     .key:hover { background: rgba(255,45,85,0.08); border-color: var(--border-hot); }
     .key:active { background: var(--pink-dim); }
     .key.del { color: var(--muted); }
     .auth-error { font-family: var(--mono); font-size: 0.6rem; color: var(--pink); text-align: center; margin-top: 16px; letter-spacing: 2px; opacity: 0; transition: opacity 0.2s; }
     .auth-error.show { opacity: 1; }
 
-    /* MAIN */
+    /* ── HEADER ── */
     #mainContent { display: none; min-height: 100vh; }
-    .header { display: flex; align-items: center; justify-content: space-between; padding: 20px 32px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(7,8,9,0.9); backdrop-filter: blur(10px); z-index: 10; }
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 18px 32px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(7,8,9,0.92); backdrop-filter: blur(10px); z-index: 10; }
     .logo { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 3px; color: var(--pink); }
     .node-id { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); letter-spacing: 2px; }
-    .status-pill { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.55rem; color: var(--muted); letter-spacing: 1px; }
-    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse-green 2s ease-in-out infinite; }
-    @keyframes pulse-green { 0%,100%{opacity:1;box-shadow:0 0 4px rgba(46,204,113,0.5);}50%{opacity:0.5;box-shadow:none;} }
+    .status-pill { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.55rem; color: var(--muted); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pgreen 2s ease-in-out infinite; }
+    @keyframes pgreen { 0%,100%{opacity:1;box-shadow:0 0 4px rgba(46,204,113,0.5);}50%{opacity:0.5;box-shadow:none;} }
 
-    .form-wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    /* ── LAYOUT ── */
+    .form-wrap { max-width: 760px; margin: 0 auto; padding: 36px 24px 100px; }
+    .section-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 3px; color: var(--pink); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    /* RUBRIK SELECTOR */
-    .rubrik-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 3px; color: var(--pink); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .rubrik-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .rubrik-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px; }
+    /* ── RUBRIK ── */
+    .rubrik-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 32px; }
     .rubrik-card { background: var(--card); border: 1px solid var(--border); padding: 14px 12px; cursor: pointer; transition: all 0.2s; position: relative; }
     .rubrik-card:hover { border-color: rgba(255,45,85,0.25); }
     .rubrik-card.selected { border-color: var(--border-hot); background: var(--pink-dim); }
     .rubrik-card.selected::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--pink); }
     .rubrik-name { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; color: var(--text); letter-spacing: 1px; margin-bottom: 4px; }
     .rubrik-card.selected .rubrik-name { color: var(--pink); }
-    .rubrik-desc { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+    .rubrik-desc { font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
 
-    /* GUIDE PANEL */
-    .guide-panel { background: var(--card); border: 1px solid var(--border); border-left: 2px solid var(--pink); padding: 16px 20px; margin-bottom: 28px; display: none; }
-    .guide-panel.show { display: block; }
-    .guide-title { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--pink); margin-bottom: 10px; }
-    .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .guide-item { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
-    .guide-item strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 2px; font-size: 0.72rem; }
-
-    /* 5W+1H CHECKLIST */
-    .checklist-wrap { background: var(--card); border: 1px solid var(--border); padding: 16px 20px; margin-bottom: 20px; }
-    .checklist-title { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .checklist-title span { color: var(--pink); }
-    .checklist-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .check-item { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.6rem; color: var(--muted); padding: 5px 10px; border: 1px solid var(--border); transition: all 0.3s; }
-    .check-item.detected { border-color: var(--green); color: var(--green); }
-    .check-item.detected::before { content: '✓ '; }
-    .check-item.missing { border-color: rgba(243,156,18,0.4); color: var(--amber); }
-    .check-all { font-family: var(--mono); font-size: 0.55rem; color: var(--muted); margin-top: 8px; }
-    .check-all.ok { color: var(--green); }
-
-    /* FORM FIELDS */
-    .section-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 3px; color: var(--pink); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .field-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--muted); display: block; margin: 20px 0 8px; }
-    input[type="text"], textarea, select { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); font-family: var(--sans); font-size: 0.95rem; padding: 14px 16px; outline: none; transition: border-color 0.2s; appearance: none; }
-    input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--border-hot); background: var(--surface); }
-    textarea { resize: vertical; min-height: 240px; line-height: 1.8; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    /* ── META FIELDS ── */
+    .meta-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+    .field-block label { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 2px; color: var(--muted); display: block; margin-bottom: 6px; }
+    .field-block input, .field-block select { width: 100%; background: #000; border: 1px solid var(--border); color: var(--text); font-family: var(--sans); font-size: 0.9rem; padding: 12px 14px; outline: none; transition: border-color 0.2s; appearance: none; }
+    .field-block input:focus, .field-block select:focus { border-color: var(--border-hot); background: var(--surface); }
     .select-wrap { position: relative; }
-    .select-wrap::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--pink); font-size: 0.8rem; pointer-events: none; }
+    .select-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--pink); font-size: 0.75rem; pointer-events: none; }
     select option { background: #0e1014; }
 
-    /* WORD COUNTER */
-    .counter-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-    .word-count { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); transition: color 0.3s; }
-    .word-count.ok { color: var(--green); }
-    .progress-bar { width: 120px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--pink); border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0%; }
-    .progress-fill.ok { background: var(--green); }
+    /* ── 6 FIELD CARDS ── */
+    .fields-stack { display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
 
-    /* SUBMIT */
-    .btn-transmit { width: 100%; margin-top: 40px; padding: 20px; background: transparent; border: 1px solid var(--border-hot); color: var(--pink); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; position: relative; overflow: hidden; transition: background 0.3s, color 0.3s; }
+    .field-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: none;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .field-card:first-child { border-top: 1px solid var(--border); }
+    .field-card.active { border-color: var(--border-hot); z-index: 1; }
+    .field-card.valid { border-left: 3px solid var(--green); }
+    .field-card.invalid { border-left: 3px solid var(--amber); }
+
+    .field-card-header {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      align-items: start;
+      padding: 14px 16px 0;
+      gap: 14px;
+    }
+
+    .field-tag {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding-top: 2px;
+    }
+    .field-tag-code {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--pink);
+      letter-spacing: 1px;
+    }
+    .field-tag-name {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .field-guidance {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .guidance-standard {
+      font-size: 0.78rem;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .guidance-examples {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .eg-bad, .eg-good {
+      font-size: 0.7rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .eg-bad { color: var(--muted); }
+    .eg-good { color: var(--text); }
+    .eg-bad::before { content: '✗'; color: var(--red); font-family: var(--mono); font-size: 0.6rem; flex-shrink: 0; }
+    .eg-good::before { content: '✓'; color: var(--green); font-family: var(--mono); font-size: 0.6rem; flex-shrink: 0; }
+
+    .field-meta-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      padding-top: 2px;
+    }
+    .min-badge {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .status-badge {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      padding: 2px 8px;
+      letter-spacing: 1px;
+    }
+    .status-badge.wajib { background: rgba(231,76,60,0.15); color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
+    .status-badge.kuat  { background: rgba(243,156,18,0.15); color: var(--amber); border: 1px solid rgba(243,156,18,0.3); }
+    .word-mini { font-family: var(--mono); font-size: 0.52rem; color: var(--muted); }
+
+    .field-card textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      padding: 12px 16px;
+      outline: none;
+      resize: none;
+      line-height: 1.7;
+      margin-top: 10px;
+      min-height: 72px;
+      transition: background 0.2s;
+    }
+    .field-card textarea:focus { background: rgba(255,45,85,0.03); }
+    .field-card textarea::placeholder { color: var(--muted); font-size: 0.82rem; }
+
+    /* ── PROGRESS SUMMARY ── */
+    .progress-summary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .progress-dots { display: flex; gap: 6px; }
+    .progress-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .progress-dot.done { background: var(--green); border-color: var(--green); }
+    .progress-dot.partial { background: var(--amber); border-color: var(--amber); }
+    .progress-dot.empty { background: transparent; border-color: var(--muted); }
+    .progress-text { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); flex: 1; }
+    .progress-text.ok { color: var(--green); }
+    .total-words { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); }
+    .total-words.ok { color: var(--green); }
+
+    /* ── SUBMIT ── */
+    .btn-transmit { width: 100%; padding: 20px; background: transparent; border: 1px solid var(--border-hot); color: var(--pink); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; position: relative; overflow: hidden; transition: background 0.3s, color 0.3s; }
     .btn-transmit::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--pink); transition: left 0.3s; z-index: -1; }
     .btn-transmit:hover::before { left: 0; }
     .btn-transmit:hover { color: #000; }
     .btn-transmit:disabled { border-color: var(--border); color: var(--muted); cursor: not-allowed; }
     .btn-transmit:disabled::before { display: none; }
 
-    /* TRANSMIT OVERLAY */
+    /* ── TRANSMIT OVERLAY ── */
     .transmit-overlay { position: fixed; inset: 0; background: rgba(7,8,9,0.95); z-index: 200; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 24px; }
     .transmit-overlay.show { display: flex; }
     .glitch-text { font-family: var(--mono); font-size: 1.2rem; color: var(--pink); letter-spacing: 4px; animation: glitch 0.5s infinite; }
-    @keyframes glitch { 0%{text-shadow:2px 0 #ff2d55,-2px 0 #00f0ff;}20%{text-shadow:-2px 0 #ff2d55,2px 0 #00f0ff;}40%{clip-path:inset(40% 0 20% 0);}60%{text-shadow:0 0 #ff2d55;clip-path:none;}100%{text-shadow:2px 0 #ff2d55,-2px 0 #00f0ff;} }
-    .transmit-steps { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-align: center; line-height: 2.2; }
+    @keyframes glitch { 0%{text-shadow:2px 0 #ff2d55,-2px 0 #00f0ff;}20%{text-shadow:-2px 0 #ff2d55,2px 0 #00f0ff;}40%{clip-path:inset(40% 0 20% 0);}60%{text-shadow:none;clip-path:none;}100%{text-shadow:2px 0 #ff2d55,-2px 0 #00f0ff;} }
+    .transmit-steps { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; text-align: center; line-height: 2.4; }
     .transmit-step.active { color: var(--text); }
     .transmit-step.done { color: var(--green); }
     .transmit-step.done::before { content: '✓ '; }
+
+    @media (max-width: 600px) {
+      .rubrik-grid { grid-template-columns: repeat(2, 1fr); }
+      .meta-row { grid-template-columns: 1fr 1fr; }
+      .field-card-header { grid-template-columns: 60px 1fr; }
+      .field-meta-right { display: none; }
+    }
   </style>
 </head>
 <body>
 
 <!-- AUTH -->
 <div id="authScreen">
-  <p class="auth-tag">// GLITCH_NETWORK // REPORTER_NODE_v3.0 //</p>
+  <p class="auth-tag">// GLITCH_NETWORK // REPORTER_NODE_v4.0 //</p>
   <div class="auth-box">
     <p class="auth-title">Reporter Access</p>
     <div class="pin-row" id="pinRow">
-      <div class="pin-dot" id="d0"></div>
-      <div class="pin-dot" id="d1"></div>
-      <div class="pin-dot" id="d2"></div>
-      <div class="pin-dot" id="d3"></div>
-      <div class="pin-dot" id="d4"></div>
-      <div class="pin-dot" id="d5"></div>
+      <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
+      <div class="pin-dot" id="d4"></div><div class="pin-dot" id="d5"></div>
     </div>
     <div class="auth-keypad">
       <button class="key" onclick="pressKey('1')">1</button>
@@ -163,15 +269,15 @@
 <div class="transmit-overlay" id="transmitOverlay">
   <p class="glitch-text">TRANSMITTING</p>
   <div class="transmit-steps">
-    <div class="transmit-step" id="step1">[ ] Enkripsi payload...</div>
-    <div class="transmit-step" id="step2">[ ] Kirim ke AI Engine...</div>
-    <div class="transmit-step" id="step3">[ ] AI riset &amp; perkaya narasi...</div>
+    <div class="transmit-step" id="step1">[ ] Validasi standar emas...</div>
+    <div class="transmit-step" id="step2">[ ] DeepSeek riset &amp; identifikasi kontras...</div>
+    <div class="transmit-step" id="step3">[ ] Sonnet menyusun artikel...</div>
     <div class="transmit-step" id="step4">[ ] Simpan ke antrian HQ...</div>
     <div class="transmit-step" id="step5">[ ] Konfirmasi transmisi...</div>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <div id="mainContent">
   <header class="header">
     <div class="logo">GLITCH //</div>
@@ -181,12 +287,12 @@
 
   <div class="form-wrap">
 
-    <!-- RUBRIK SELECTOR -->
-    <div class="rubrik-label">JENIS LAPORAN</div>
+    <!-- RUBRIK -->
+    <div class="section-label">JENIS LAPORAN</div>
     <div class="rubrik-grid">
       <div class="rubrik-card selected" id="rubrik-HARD_NEWS" onclick="selectRubrik('HARD_NEWS')">
         <div class="rubrik-name">HARD NEWS</div>
-        <div class="rubrik-desc">Peristiwa aktual, mendesak, dampak langsung</div>
+        <div class="rubrik-desc">Peristiwa aktual, dampak langsung, mendesak</div>
       </div>
       <div class="rubrik-card" id="rubrik-INVESTIGASI" onclick="selectRubrik('INVESTIGASI')">
         <div class="rubrik-name">INVESTIGASI</div>
@@ -198,332 +304,434 @@
       </div>
       <div class="rubrik-card" id="rubrik-LIFESTYLE" onclick="selectRubrik('LIFESTYLE')">
         <div class="rubrik-name">LIFESTYLE</div>
-        <div class="rubrik-desc">Budaya, tren, fenomena sosial, human interest</div>
+        <div class="rubrik-desc">Budaya, tren, fenomena sosial</div>
       </div>
     </div>
 
-    <!-- GUIDE PANEL (dinamis per rubrik) -->
-    <div class="guide-panel show" id="guidePanel">
-      <div class="guide-title" id="guideTitle">STANDAR HARD NEWS</div>
-      <div class="guide-grid" id="guideGrid"></div>
-    </div>
-
-    <!-- 5W+1H CHECKLIST -->
-    <div class="checklist-wrap">
-      <div class="checklist-title">STANDAR EMAS REPORTASE — <span>5W+1H WAJIB TERPENUHI</span></div>
-      <div class="checklist-row">
-        <div class="check-item" id="chk-who">WHO</div>
-        <div class="check-item" id="chk-what">WHAT</div>
-        <div class="check-item" id="chk-when">WHEN</div>
-        <div class="check-item" id="chk-where">WHERE</div>
-        <div class="check-item" id="chk-why">WHY</div>
-        <div class="check-item" id="chk-how">HOW</div>
+    <!-- META -->
+    <div class="section-label">IDENTITAS LAPORAN</div>
+    <div class="meta-row">
+      <div class="field-block">
+        <label>JUDUL INTERNAL</label>
+        <input type="text" id="rawTitle" placeholder="Fokus utama, spesifik">
       </div>
-      <div class="check-all" id="checkAll">Mulai menulis — sistem akan mendeteksi elemen 5W+1H secara otomatis</div>
-    </div>
-
-    <!-- FORM -->
-    <div class="section-label">LAPANGAN TRANSMISI</div>
-
-    <label class="field-label">JUDUL INTERNAL</label>
-    <input type="text" id="rawTitle" placeholder="Fokus utama kejadian — jelas dan spesifik">
-
-    <div class="grid-2">
-      <div>
-        <label class="field-label">KOTA</label>
+      <div class="field-block">
+        <label>KOTA</label>
         <div class="select-wrap">
           <select id="cityCode">
             <option value="BDG">BANDUNG</option>
             <option value="JKT">JAKARTA</option>
             <option value="SBY">SURABAYA</option>
             <option value="YGY">YOGYAKARTA</option>
+            <option value="MDN">MEDAN</option>
+            <option value="MKS">MAKASSAR</option>
           </select>
         </div>
       </div>
-      <div>
-        <label class="field-label">RUBRIK TERPILIH</label>
-        <input type="text" id="rubrikDisplay" readonly style="cursor:default; color: var(--pink);" value="HARD NEWS">
+      <div class="field-block">
+        <label>RUBRIK AKTIF</label>
+        <input type="text" id="rubrikDisplay" readonly style="cursor:default;color:var(--pink);" value="HARD NEWS">
       </div>
     </div>
 
-    <label class="field-label">NARASI MENTAH — 5W+1H (MIN. 150 KATA)</label>
-    <textarea id="rawContent" placeholder="Tulis narasi jujur dari lapangan. Pastikan mencakup:
-• SIAPA yang terlibat (nama, jabatan, institusi)
-• APA yang terjadi (fakta utama, bukan opini)
-• KAPAN kejadian berlangsung (tanggal, waktu, periode)
-• DI MANA lokasi spesifik (alamat, nama tempat)
-• MENGAPA ini terjadi (latar belakang, sebab)
-• BAGAIMANA kronologi atau mekanismenya"></textarea>
+    <!-- 6 FIELD STANDAR EMAS -->
+    <div class="section-label">STANDAR EMAS — 6 FIELD WAJIB</div>
 
-    <div class="counter-row">
-      <span class="word-count" id="wordCount">0 / 150 KATA</span>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="fields-stack" id="fieldsStack">
+      <!-- Dirender oleh JS -->
+    </div>
+
+    <!-- PROGRESS SUMMARY -->
+    <div class="progress-summary" id="progressSummary">
+      <div class="progress-dots" id="progressDots"></div>
+      <div class="progress-text" id="progressText">Isi semua 6 field untuk melanjutkan</div>
+      <div class="total-words" id="totalWords">0 kata total</div>
     </div>
 
     <button class="btn-transmit" id="submitBtn" disabled onclick="transmit()">
       KIRIM KE JAKARTA HQ
     </button>
+
   </div>
 </div>
 
 <script>
-  // ── DATA PANDUAN PER RUBRIK ──
-  const RUBRIK_GUIDES = {
-    HARD_NEWS: {
-      title: 'STANDAR HARD NEWS',
-      items: [
-        { label: 'Struktur', desc: 'Piramida terbalik — fakta terberat di kalimat pertama' },
-        { label: 'Lead', desc: '40–60 kata, maksimal 2 kalimat' },
-        { label: 'Headline', desc: '6–8 kata, aktif, tanpa komentar editorial' },
-        { label: 'Nada', desc: 'Dingin, presisi forensik, zero komentar' },
-        { label: 'Fokus', desc: 'Fakta + satu fakta kecil yang memperumitnya' },
-        { label: 'AI akan', desc: 'Cek konteks peristiwa serupa + data pembanding' }
-      ]
-    },
-    INVESTIGASI: {
-      title: 'STANDAR INVESTIGASI',
-      items: [
-        { label: 'Struktur', desc: 'Detail janggal dulu → sistem → kembali ke detail' },
-        { label: 'Lead', desc: '60–80 kata, 3 kalimat, petunjuk bukan jawaban' },
-        { label: 'Headline', desc: '8–10 kata, pertanyaan tersirat tanpa tanda tanya' },
-        { label: 'Nada', desc: 'Investigator yang tahu tapi memilih tidak bicara langsung' },
-        { label: 'Fokus', desc: 'Anomali yang sulit dijelaskan, bukan yang paling dramatis' },
-        { label: 'AI akan', desc: 'Riset pola historis + bandingkan kasus serupa + cek data publik' }
-      ]
-    },
-    OPINI: {
-      title: 'STANDAR OPINI',
-      items: [
-        { label: 'Struktur', desc: 'Premis → benturan → pertanyaan terbuka' },
-        { label: 'Lead', desc: '50–70 kata, 3 kalimat, tegangan bukan argumen' },
-        { label: 'Headline', desc: '7–9 kata, terdengar simpulan tapi sebenarnya pembuka' },
-        { label: 'Nada', desc: 'Bukan pro/kontra — undangan berpikir bersama' },
-        { label: 'Fokus', desc: 'Kontradiksi yang nyata, bukan yang direkayasa' },
-        { label: 'AI akan', desc: 'Riset perspektif berlawanan + data yang memperumit premis' }
-      ]
-    },
-    LIFESTYLE: {
-      title: 'STANDAR LIFESTYLE',
-      items: [
-        { label: 'Struktur', desc: 'Satu objek kecil yang membawa muatan besar' },
-        { label: 'Lead', desc: '55–75 kata, 3 kalimat, sensoris → spesifik' },
-        { label: 'Headline', desc: '6–9 kata, sensoris, terasa seperti ingatan bukan berita' },
-        { label: 'Nada', desc: 'Feature bukan soft news — ada tegangan di bawah permukaan' },
-        { label: 'Fokus', desc: 'Detail paling konkret yang membawa makna terbesar' },
-        { label: 'AI akan', desc: 'Riset konteks budaya + tren + data sosial yang relevan' }
-      ]
-    }
-  };
-
-  // ── DETEKSI 5W+1H ──
-  // Pola deteksi berbasis keyword bahasa Indonesia
-  const W_PATTERNS = {
-    who: /\b(siapa|nama|jabatan|direktur|kepala|warga|petani|pengusaha|aktivis|pejabat|menteri|gubernur|walikota|bupati|polisi|TNI|mahasiswa|guru|dokter|buruh|pengungsi|korban|pelaku|tersangka|terdakwa)\b/i,
-    what: /\b(apa|terjadi|kejadian|peristiwa|kasus|insiden|kebijakan|peraturan|undang|proyek|pembangunan|pembongkaran|penangkapan|penggerebekan|demonstrasi|bencana|kecelakaan|kebakaran|banjir|longsor)\b/i,
-    when: /\b(kapan|kemarin|hari ini|minggu lalu|bulan|tahun|januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember|senin|selasa|rabu|kamis|jumat|sabtu|minggu|pagi|siang|sore|malam|dinihari|\d{1,2}[\/\-]\d{1,2}|\d{4})\b/i,
-    where: /\b(mana|jalan|jl\.|kelurahan|kecamatan|kabupaten|kota|provinsi|gedung|kantor|pasar|sekolah|rumah sakit|puskesmas|balai|lapangan|bandara|pelabuhan|stasiun|desa|kampung|gang|rt|rw)\b/i,
-    why: /\b(kenapa|mengapa|karena|sebab|akibat|dampak|alasan|faktor|latar belakang|motif|diduga|diperkirakan|akibat dari|imbas|dampak)\b/i,
-    how: /\b(bagaimana|caranya|proses|mekanisme|prosedur|kronologi|tahapan|langkah|dengan cara|melalui|menggunakan|sistem|metode|upaya|dilakukan dengan)\b/i
-  };
-
-  let selectedRubrik = 'HARD_NEWS';
-  let pinBuffer = '';
-  const REPORTER_PIN = '123456';
-
-  // ── PIN ──
-  function pressKey(k) {
-    if (k === 'del') { pinBuffer = pinBuffer.slice(0, -1); }
-    else { if (pinBuffer.length >= 6) return; pinBuffer += k; }
-    updateDots();
-    if (pinBuffer.length === 6) setTimeout(verifyPin, 150);
+// ─────────────────────────────────────────────────────────
+// FIELD DEFINITIONS
+// Standard: teks panduan + contoh buruk vs baik per field
+// min: minimum kata yang diterima sistem
+// required: true = block submit jika kosong, false = flagged queue
+// ─────────────────────────────────────────────────────────
+const FIELDS = [
+  {
+    id: 'who',
+    code: 'WHO',
+    name: 'Siapa',
+    badge: 'WAJIB',
+    min: 8,
+    required: true,
+    standard: 'Nama lengkap + satu identitas pengikat. Tanpa ini tidak ada subjek — bukan berita, hanya rumor.',
+    bad:  'Seorang pejabat daerah',
+    good: 'Rudi Hartono, Kepala Dinas PU Kota Bandung',
+    placeholder: 'Nama lengkap, jabatan atau profesi, institusi atau afiliasi...'
+  },
+  {
+    id: 'what',
+    code: 'WHAT',
+    name: 'Apa',
+    badge: 'WAJIB',
+    min: 15,
+    required: true,
+    standard: 'Satu kejadian konkret + satu angka atau detail yang bisa diverifikasi. Bukan opini, bukan interpretasi.',
+    bad:  'Ada demo dan situasi memanas',
+    good: '200 warga memblokir Jl. Setiabudhi selama 3 jam, menolak pembangunan hotel bintang lima di lahan resapan air',
+    placeholder: 'Apa yang terjadi — satu tindakan utama, konkret, bisa diverifikasi, ada angka atau skala...'
+  },
+  {
+    id: 'when',
+    code: 'WHEN',
+    name: 'Kapan',
+    badge: 'WAJIB',
+    min: 3,
+    required: true,
+    standard: 'Tanggal atau hari spesifik. "Kemarin" tidak valid tanpa konteks — waktu relatif tidak bisa diarsipkan.',
+    bad:  'Kemarin sore sekitar jam 3an',
+    good: 'Selasa, 1 April 2026, pukul 15.00–18.00 WIB',
+    placeholder: 'Hari, tanggal, jam — semakin spesifik semakin kuat...'
+  },
+  {
+    id: 'where',
+    code: 'WHERE',
+    name: 'Di mana',
+    badge: 'WAJIB',
+    min: 5,
+    required: true,
+    standard: 'Nama tempat yang bisa dicari di peta. Ini keunggulan hyperlocal — detail yang media nasional tidak punya.',
+    bad:  'Di daerah Bandung utara',
+    good: 'Depan pintu masuk lahan proyek, Jl. Setiabudhi No. 412, Kel. Ciumbuleuit, Kec. Cidadap',
+    placeholder: 'Nama jalan, nomor, kelurahan, kecamatan — cukup spesifik untuk ditemukan di maps...'
+  },
+  {
+    id: 'why',
+    code: 'WHY',
+    name: 'Mengapa',
+    badge: 'KUAT',
+    min: 20,
+    required: false,
+    standard: 'Latar belakang langsung yang bisa dikonfirmasi. Boleh "diduga" asal ada alasan konkret mengapa diduga. Ini bahan bakar riset AI.',
+    bad:  'Warga tidak suka dengan pembangunan tersebut',
+    good: 'Lahan seluas 4 hektar itu masuk zona resapan air dalam RTRW 2022. Warga mengklaim tidak pernah diundang dalam sosialisasi yang wajib dilakukan sebelum IMB diterbitkan',
+    placeholder: 'Sebab langsung, latar belakang, dokumen atau pernyataan yang menjadi dasar kejadian ini...'
+  },
+  {
+    id: 'how',
+    code: 'HOW',
+    name: 'Bagaimana',
+    badge: 'KUAT',
+    min: 25,
+    required: false,
+    standard: 'Kronologi atau mekanisme — urutan kejadian dari awal sampai saat laporan dikirim. Ini yang membangun narrative arc.',
+    bad:  'Warga berkumpul lalu demo dan akhirnya bubar',
+    good: 'Sekitar pukul 14.00 warga mulai berkumpul di RT 07. Pukul 15.00 mereka bergerak ke lokasi proyek membawa spanduk. Petugas keamanan sempat menghalau. Pukul 16.30 ketua RW diminta mediasi. Hingga sore pihak pengembang tidak ada yang hadir',
+    placeholder: 'Urutan kejadian dari awal sampai sekarang — apa yang pertama terjadi, lalu apa, lalu apa...'
   }
+];
 
-  function updateDots() {
-    for (let i = 0; i < 6; i++)
-      document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
+// ─────────────────────────────────────────────────────────
+// RENDER 6 FIELDS
+// ─────────────────────────────────────────────────────────
+function renderFields() {
+  const stack = document.getElementById('fieldsStack');
+  stack.innerHTML = FIELDS.map(f => `
+    <div class="field-card" id="card-${f.id}">
+      <div class="field-card-header">
+        <div class="field-tag">
+          <span class="field-tag-code">${f.code}</span>
+          <span class="field-tag-name">${f.name}</span>
+        </div>
+        <div class="field-guidance">
+          <div class="guidance-standard">${f.standard}</div>
+          <div class="guidance-examples">
+            <div class="eg-bad">${f.bad}</div>
+            <div class="eg-good">${f.good}</div>
+          </div>
+        </div>
+        <div class="field-meta-right">
+          <span class="min-badge">min ${f.min} kata</span>
+          <span class="status-badge ${f.badge === 'WAJIB' ? 'wajib' : 'kuat'}">${f.badge}</span>
+          <span class="word-mini" id="wc-${f.id}">0 kata</span>
+        </div>
+      </div>
+      <textarea
+        id="field-${f.id}"
+        placeholder="${f.placeholder}"
+        rows="3"
+        oninput="onFieldInput('${f.id}')"
+        onfocus="onFieldFocus('${f.id}')"
+        onblur="onFieldBlur('${f.id}')"
+      ></textarea>
+    </div>
+  `).join('');
+
+  // Render progress dots
+  document.getElementById('progressDots').innerHTML =
+    FIELDS.map(f => `<div class="progress-dot empty" id="dot-${f.id}"></div>`).join('');
+}
+
+// ─────────────────────────────────────────────────────────
+// FIELD INTERACTION
+// ─────────────────────────────────────────────────────────
+function countWords(text) {
+  return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+function onFieldFocus(id) {
+  document.getElementById('card-' + id).classList.add('active');
+}
+
+function onFieldBlur(id) {
+  document.getElementById('card-' + id).classList.remove('active');
+  validateField(id);
+}
+
+function onFieldInput(id) {
+  const field = FIELDS.find(f => f.id === id);
+  const val = document.getElementById('field-' + id).value;
+  const wc = countWords(val);
+  document.getElementById('wc-' + id).textContent = wc + ' kata';
+  validateField(id);
+  updateProgress();
+  checkSubmit();
+}
+
+function validateField(id) {
+  const field = FIELDS.find(f => f.id === id);
+  const val = document.getElementById('field-' + id).value.trim();
+  const wc = countWords(val);
+  const card = document.getElementById('card-' + id);
+  const dot  = document.getElementById('dot-' + id);
+
+  card.classList.remove('valid', 'invalid');
+  dot.classList.remove('done', 'partial', 'empty');
+
+  if (val.length === 0) {
+    dot.classList.add('empty');
+    return 'empty';
   }
-
-  function verifyPin() {
-    if (pinBuffer === REPORTER_PIN) {
-      document.getElementById('authScreen').classList.add('exit');
-      setTimeout(() => {
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        renderGuide('HARD_NEWS');
-      }, 500);
-    } else {
-      const err = document.getElementById('authError');
-      err.classList.add('show');
-      pinBuffer = '';
-      updateDots();
-      setTimeout(() => err.classList.remove('show'), 2000);
-    }
+  if (wc >= field.min) {
+    card.classList.add('valid');
+    dot.classList.add('done');
+    return 'valid';
+  } else {
+    card.classList.add('invalid');
+    dot.classList.add('partial');
+    return 'partial';
   }
+}
 
-  document.addEventListener('keydown', e => {
-    if (document.getElementById('authScreen').style.display === 'none') return;
-    if (e.key >= '0' && e.key <= '9') pressKey(e.key);
-    if (e.key === 'Backspace') pressKey('del');
-    if (e.key === 'Enter') verifyPin();
+function updateProgress() {
+  let totalWords = 0;
+  let validCount = 0;
+  let requiredMissing = [];
+
+  FIELDS.forEach(f => {
+    const val = document.getElementById('field-' + f.id).value.trim();
+    const wc = countWords(val);
+    totalWords += wc;
+    const status = validateField(f.id);
+    if (status === 'valid') validCount++;
+    if (f.required && status !== 'valid') requiredMissing.push(f.code);
   });
 
-  // ── RUBRIK SELECTOR ──
-  function selectRubrik(rubrik) {
-    selectedRubrik = rubrik;
-    document.querySelectorAll('.rubrik-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById('rubrik-' + rubrik).classList.add('selected');
-    document.getElementById('rubrikDisplay').value = rubrik.replace('_', ' ');
-    renderGuide(rubrik);
-    checkForm();
+  const totalEl = document.getElementById('totalWords');
+  const textEl  = document.getElementById('progressText');
+  totalEl.textContent = totalWords + ' kata total';
+  totalEl.classList.toggle('ok', totalWords >= 76);
+
+  if (validCount === 6) {
+    textEl.textContent = '✓ Semua 6 field terpenuhi — narasi siap untuk twin engine';
+    textEl.classList.add('ok');
+  } else if (requiredMissing.length > 0) {
+    textEl.textContent = `Field WAJIB belum cukup: ${requiredMissing.join(', ')}`;
+    textEl.classList.remove('ok');
+  } else {
+    textEl.textContent = `${validCount}/6 field terpenuhi — WHY & HOW akan masuk review jika kosong`;
+    textEl.classList.remove('ok');
+  }
+}
+
+function checkSubmit() {
+  const titleOk = document.getElementById('rawTitle').value.trim().length > 5;
+  const requiredOk = FIELDS
+    .filter(f => f.required)
+    .every(f => validateField(f.id) === 'valid');
+  document.getElementById('submitBtn').disabled = !(titleOk && requiredOk);
+}
+
+// Gabungkan semua field jadi satu narasi terstruktur untuk API
+function buildPayload() {
+  const parts = FIELDS.map(f => {
+    const val = document.getElementById('field-' + f.id).value.trim();
+    if (!val) return null;
+    return `[${f.code} — ${f.name}]\n${val}`;
+  }).filter(Boolean);
+
+  return parts.join('\n\n');
+}
+
+// Hitung confidence score sederhana untuk flagging
+function calcConfidence() {
+  let score = 0;
+  FIELDS.forEach(f => {
+    const val = document.getElementById('field-' + f.id).value.trim();
+    const wc = countWords(val);
+    if (wc >= f.min) score += f.required ? 20 : 10;
+  });
+  return score; // max 100: 4 required×20 + 2 optional×10
+}
+
+// ─────────────────────────────────────────────────────────
+// PIN
+// ─────────────────────────────────────────────────────────
+const REPORTER_PIN = '123456';
+let pinBuffer = '';
+let selectedRubrik = 'HARD_NEWS';
+
+function pressKey(k) {
+  if (k === 'del') pinBuffer = pinBuffer.slice(0, -1);
+  else { if (pinBuffer.length >= 6) return; pinBuffer += k; }
+  for (let i = 0; i < 6; i++)
+    document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
+  if (pinBuffer.length === 6) setTimeout(verifyPin, 150);
+}
+
+function verifyPin() {
+  if (pinBuffer === REPORTER_PIN) {
+    document.getElementById('authScreen').classList.add('exit');
+    setTimeout(() => {
+      document.getElementById('authScreen').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      renderFields();
+      updateProgress();
+    }, 500);
+  } else {
+    const err = document.getElementById('authError');
+    err.classList.add('show');
+    pinBuffer = '';
+    for (let i = 0; i < 6; i++) document.getElementById('d' + i).classList.remove('filled');
+    setTimeout(() => err.classList.remove('show'), 2000);
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('authScreen').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') pressKey(e.key);
+  if (e.key === 'Backspace') pressKey('del');
+  if (e.key === 'Enter') verifyPin();
+});
+
+// ─────────────────────────────────────────────────────────
+// RUBRIK
+// ─────────────────────────────────────────────────────────
+function selectRubrik(rubrik) {
+  selectedRubrik = rubrik;
+  document.querySelectorAll('.rubrik-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('rubrik-' + rubrik).classList.add('selected');
+  document.getElementById('rubrikDisplay').value = rubrik.replace('_', ' ');
+}
+
+// ─────────────────────────────────────────────────────────
+// TITLE VALIDATION
+// ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const titleInput = document.getElementById('rawTitle');
+  if (titleInput) titleInput.addEventListener('input', checkSubmit);
+});
+
+// ─────────────────────────────────────────────────────────
+// TRANSMIT
+// ─────────────────────────────────────────────────────────
+async function transmit() {
+  const overlay = document.getElementById('transmitOverlay');
+  overlay.classList.add('show');
+  const steps = ['step1','step2','step3','step4','step5'];
+
+  async function activate(i, delay) {
+    await new Promise(r => setTimeout(r, delay));
+    document.getElementById(steps[i]).classList.add('active');
+  }
+  function done(i) {
+    document.getElementById(steps[i]).classList.remove('active');
+    document.getElementById(steps[i]).classList.add('done');
   }
 
-  function renderGuide(rubrik) {
-    const guide = RUBRIK_GUIDES[rubrik];
-    document.getElementById('guideTitle').textContent = guide.title;
-    document.getElementById('guideGrid').innerHTML = guide.items.map(item =>
-      `<div class="guide-item"><strong>${item.label}</strong>${item.desc}</div>`
-    ).join('');
-    document.getElementById('guidePanel').classList.add('show');
-  }
+  await activate(0, 300);
+  await activate(1, 900);
+  await activate(2, 1600);
 
-  // ── 5W+1H DETECTOR ──
-  function detect5W1H(text) {
-    const results = {};
-    for (const [key, pattern] of Object.entries(W_PATTERNS)) {
-      results[key] = pattern.test(text);
-    }
-    return results;
-  }
+  const confidence = calcConfidence();
+  const structuredContent = buildPayload();
 
-  function updateChecklist(text) {
-    const detected = detect5W1H(text);
-    const map = { who: 'WHO', what: 'WHAT', when: 'WHEN', where: 'WHERE', why: 'WHY', how: 'HOW' };
-    let allPassed = true;
-    let passCount = 0;
-
-    for (const [key, label] of Object.entries(map)) {
-      const el = document.getElementById('chk-' + key);
-      if (detected[key]) {
-        el.classList.add('detected');
-        el.classList.remove('missing');
-        passCount++;
-      } else {
-        el.classList.remove('detected');
-        if (text.length > 100) {
-          el.classList.add('missing');
-          allPassed = false;
-        } else {
-          el.classList.remove('missing');
+  try {
+    const response = await fetch('/api/transmit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: document.getElementById('rawTitle').value.trim(),
+        content: structuredContent,
+        city: document.getElementById('cityCode').value,
+        rubric: selectedRubrik,
+        confidence_score: confidence,
+        needs_review: confidence < 80,
+        fields: {
+          who:   document.getElementById('field-who').value.trim(),
+          what:  document.getElementById('field-what').value.trim(),
+          when:  document.getElementById('field-when').value.trim(),
+          where: document.getElementById('field-where').value.trim(),
+          why:   document.getElementById('field-why').value.trim(),
+          how:   document.getElementById('field-how').value.trim(),
         }
-      }
+      })
+    });
+
+    if (!response.ok) {
+      const errData = await response.json();
+      throw new Error(errData.message || 'API Error');
     }
 
-    const checkAllEl = document.getElementById('checkAll');
-    if (text.length < 50) {
-      checkAllEl.textContent = 'Mulai menulis — sistem akan mendeteksi elemen 5W+1H secara otomatis';
-      checkAllEl.classList.remove('ok');
-    } else if (allPassed) {
-      checkAllEl.textContent = `✓ Semua 6 elemen terdeteksi — narasi siap untuk pipeline AI`;
-      checkAllEl.classList.add('ok');
-    } else {
-      const missing = Object.entries(detected).filter(([k,v]) => !v).map(([k]) => map[k]);
-      checkAllEl.textContent = `${passCount}/6 elemen terdeteksi — lengkapi: ${missing.join(', ')}`;
-      checkAllEl.classList.remove('ok');
-    }
+    const result = await response.json();
+    done(0); done(1); done(2);
+    await activate(3, 300); done(3);
+    await activate(4, 400); done(4);
+    await new Promise(r => setTimeout(r, 700));
 
-    return allPassed;
+    overlay.classList.remove('show');
+
+    // Reset
+    document.getElementById('rawTitle').value = '';
+    FIELDS.forEach(f => {
+      document.getElementById('field-' + f.id).value = '';
+      document.getElementById('wc-' + f.id).textContent = '0 kata';
+      document.getElementById('card-' + f.id).classList.remove('valid', 'invalid');
+      document.getElementById('dot-' + f.id).className = 'progress-dot empty';
+    });
+    updateProgress();
+    checkSubmit();
+
+    const notif = document.createElement('div');
+    const isReview = result.needs_review;
+    notif.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#0e1014;border:1px solid ${isReview ? '#f39c12' : '#2ecc71'};color:${isReview ? '#f39c12' : '#2ecc71'};font-family:var(--mono);font-size:0.65rem;letter-spacing:2px;padding:16px 32px;z-index:300;white-space:nowrap;`;
+    notif.textContent = isReview
+      ? `⚠ MASUK REVIEW QUEUE — WHY/HOW perlu dilengkapi`
+      : `✓ TRANSMISI MASUK ANTRIAN — ID: ${result.id.substring(0,8).toUpperCase()}`;
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 6000);
+
+  } catch (err) {
+    overlay.classList.remove('show');
+    alert(`TRANSMISI GAGAL: ${err.message}`);
   }
-
-  // ── FORM VALIDATION ──
-  const rawContent = document.getElementById('rawContent');
-  const rawTitle = document.getElementById('rawTitle');
-  const submitBtn = document.getElementById('submitBtn');
-
-  function countWords(text) {
-    return text.trim().split(/\s+/).filter(w => w.length > 0).length;
-  }
-
-  function checkForm() {
-    const words = countWords(rawContent.value);
-    const pct = Math.min((words / 150) * 100, 100);
-    const titleOk = rawTitle.value.trim().length > 5;
-    const wordsOk = words >= 150;
-    const w5h1Ok = updateChecklist(rawContent.value);
-
-    document.getElementById('wordCount').textContent = `${words} / 150 KATA`;
-    document.getElementById('wordCount').classList.toggle('ok', wordsOk);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressFill').classList.toggle('ok', wordsOk);
-
-    submitBtn.disabled = !(titleOk && wordsOk);
-  }
-
-  rawContent.addEventListener('input', checkForm);
-  rawTitle.addEventListener('input', checkForm);
-
-  // ── TRANSMIT ──
-  async function transmit() {
-    const overlay = document.getElementById('transmitOverlay');
-    overlay.classList.add('show');
-    const steps = ['step1','step2','step3','step4','step5'];
-
-    async function activateStep(i, delay) {
-      await new Promise(r => setTimeout(r, delay));
-      document.getElementById(steps[i]).classList.add('active');
-    }
-    function doneStep(i) {
-      document.getElementById(steps[i]).classList.remove('active');
-      document.getElementById(steps[i]).classList.add('done');
-    }
-
-    await activateStep(0, 300);
-    await activateStep(1, 900);
-    await activateStep(2, 1400);
-
-    try {
-      const response = await fetch('/api/transmit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: rawTitle.value.trim(),
-          content: rawContent.value.trim(),
-          city: document.getElementById('cityCode').value,
-          rubric: selectedRubrik
-        })
-      });
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.message || 'API Error');
-      }
-
-      const result = await response.json();
-      doneStep(0); doneStep(1); doneStep(2);
-      await activateStep(3, 300);
-      doneStep(3);
-      await activateStep(4, 400);
-      doneStep(4);
-      await new Promise(r => setTimeout(r, 700));
-
-      overlay.classList.remove('show');
-
-      // Reset form
-      rawTitle.value = '';
-      rawContent.value = '';
-      checkForm();
-
-      // Notif sukses
-      const notif = document.createElement('div');
-      notif.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#0e1014;border:1px solid #2ecc71;color:#2ecc71;font-family:var(--mono);font-size:0.65rem;letter-spacing:2px;padding:16px 32px;z-index:300;white-space:nowrap;`;
-      notif.textContent = `✓ TRANSMISI MASUK ANTRIAN — ID: ${result.id.substring(0,8).toUpperCase()}`;
-      document.body.appendChild(notif);
-      setTimeout(() => notif.remove(), 5000);
-
-    } catch (err) {
-      overlay.classList.remove('show');
-      alert(`TRANSMISI GAGAL: ${err.message}`);
-    }
-  }
+}
 </script>
 </body>
 </html>
